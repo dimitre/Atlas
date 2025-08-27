@@ -1,0 +1,16 @@
+ofpath: ../../..
+
+addons:
+  - ofxMicroUI
+  - ofxTools
+  # - ofxScenes
+  - ofxVideoWriter
+  - ofxNetwork
+  - ofxOsc
+  - ofxOpenCv
+  # - ofxYaml
+  # - ofxUVC
+
+templates: [macos, zed, make]
+
+defines: [TARGET_RGFW_WINDOW]
