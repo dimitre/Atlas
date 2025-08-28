@@ -2,7 +2,7 @@ ofpath: ../../..
 
 addons:
   - ofxMicroUI
-  - ofxTools
+  # - ofxTools
   # - ofxScenes
   - ofxVideoWriter
   - ofxNetwork
@@ -12,5 +12,4 @@ addons:
   # - ofxUVC
 
 templates: [macos, zed, make]
-
-defines: [TARGET_RGFW_WINDOW]
+# defines: [TARGET_RGFW_WINDOW]
