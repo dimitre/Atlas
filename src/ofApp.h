@@ -9,9 +9,13 @@
 
 #include "ofxMicroUI.h"
 #include "ofxMicroUISoftware.h"
-#include "ofVideoWriter.h"
 
 #include "ofxOsc.h"
+
+//#define VIDEOWRITER
+#ifdef VIDEOWRITER
+#include "ofVideoWriter.h"
+#endif
 
 class ofApp : public ofBaseApp{
 	public:
@@ -34,12 +38,16 @@ class ofApp : public ofBaseApp{
 
 	ofFbo * fbo { soft.fboFinal };
 
-	ofVideoWriter writer;
 	ofxOscSender sender;
 	glm::ivec2 res { 1280, 800 };
 	
 	cv::Mat inputImage;
 	cv::Mat inputCam;
+	
+#ifdef VIDEOWRITER
+	ofVideoWriter writer;
+#endif
+
 	
 	struct pt {
 		glm::vec2 pos;
@@ -51,9 +59,7 @@ class ofApp : public ofBaseApp{
 	};
 	
 	vector <pt> pts;
-
 	float nextJump = 0;
-	
 	
 	// speed
 	struct vel {

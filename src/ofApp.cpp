@@ -13,9 +13,12 @@ void ofApp::setup(){
 //	webcam.setPixelFormat(OF_PIXELS_BGR);
 //	webcam.setPixelFormat(OF_PIXELS_GRAY);
 	img.allocate(webcam.getWidth(),webcam.getHeight(), OF_IMAGE_COLOR);
+#ifdef VIDEOWRITER
 	writer.setFbo(fbo);
 	writer.setFps(fps);
 	writer.setScale(1);
+#endif
+
 	
 	
 	
@@ -272,7 +275,9 @@ void ofApp::draw(){
 		
 		
 		fbo->end();
+#ifdef VIDEOWRITER
 		writer.addFrame();
+#endif
 	}
 	
 
@@ -298,7 +303,9 @@ void ofApp::keyPressed(int key){
 	if (key == 'r') {
 //		detect ^= 1;
 //		drawCam ^= 1;
+#ifdef VIDEOWRITER
 		writer.toggleRecording();
+#endif
 	}
 
 }
@@ -344,6 +351,9 @@ void ofApp::uiEventsCam(ofxMicroUI::element & e) {
 		webcam.close();
 		webcam.setDesiredFrameRate(*e.i);
 		webcam.setup(res.x, res.y);
+#ifdef VIDEOWRITER
+		writer.setFps(*e.i);
+#endif
 	}
 	else if (e.name == "res") {
 		if (*e.s != "") {
@@ -355,8 +365,10 @@ void ofApp::uiEventsCam(ofxMicroUI::element & e) {
 			img.allocate(webcam.getWidth(),webcam.getHeight(), OF_IMAGE_COLOR);
 			
 			fbo->allocate(webcam.getWidth(), webcam.getHeight() * 2);
-			writer.setFbo(fbo);
 
+#ifdef VIDEOWRITER
+			writer.setFbo(fbo);
+#endif
 		}
 	}
 	
