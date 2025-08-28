@@ -1,5 +1,5 @@
 int	device	0 2 2
-int	framerate	10 120
+int	framerate	10 120 60
 radioNoLabel	framerate_shortcutInt	15 20 24 30 60 120 180 210 420 640
 
 #radio	res	1280x800 1280x720 1280x768 800x600 720x480 640x480
