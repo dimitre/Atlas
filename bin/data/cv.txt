@@ -1,0 +1,4 @@
+float	minCircularity	0 1 .8
+float	minConvexity	0 1 .9
+int	minArea	0 1000 250
+int	maxArea	0 70000 35000

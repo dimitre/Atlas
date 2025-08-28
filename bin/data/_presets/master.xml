@@ -1,0 +1,10 @@
+<ofxMicroUI>2</ofxMicroUI>
+<elementsList>
+	<fps>60</fps>
+	<presetsFolder>1</presetsFolder>
+	<presets>4</presets>
+	<fboX>584</fboX>
+	<fboY>-18</fboY>
+	<fboScale>1</fboScale>
+	<dragFbo>1</dragFbo>
+</elementsList>

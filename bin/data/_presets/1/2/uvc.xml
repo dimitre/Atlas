@@ -1,0 +1,10 @@
+<ofxMicroUI>2</ofxMicroUI>
+<elementsList>
+	<auto-exposure-mode>1</auto-exposure-mode>
+	<exposure-time-abs>76</exposure-time-abs>
+	<gain>0</gain>
+	<brightness>0</brightness>
+	<contrast>36</contrast>
+	<backlight-compensation>10</backlight-compensation>
+	<gamma>159</gamma>
+</elementsList>

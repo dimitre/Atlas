@@ -1,0 +1,8 @@
+int	auto-exposure-mode	1 20 1
+#int	exposure-time-abs	1 5000 157
+int	exposure-time-abs	1 100 15
+int	gain	0 64 32
+int	brightness	-64 64 0
+int	contrast	0 64 32
+int	backlight-compensation	0 3 1
+int	gamma	72 500 100

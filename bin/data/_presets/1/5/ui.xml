@@ -1,0 +1,11 @@
+<ofxMicroUI>2</ofxMicroUI>
+<elementsList>
+	<alphaSpeed>0.1</alphaSpeed>
+	<speedThreshold>20</speedThreshold>
+	<blur1_on>1</blur1_on>
+	<blur1>14</blur1>
+	<threshold_on>1</threshold_on>
+	<threshold>107.1</threshold>
+	<blur_on>0</blur_on>
+	<blur>0</blur>
+</elementsList>
