@@ -2,4 +2,5 @@
 <elementsList>
 	<device>2</device>
 	<framerate>120</framerate>
+	<res></res>
 </elementsList>

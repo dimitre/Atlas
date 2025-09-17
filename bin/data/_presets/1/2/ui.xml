@@ -1,6 +1,11 @@
 <ofxMicroUI>2</ofxMicroUI>
 <elementsList>
-	<markNotFound>0</markNotFound>
-	<drawBox>0</drawBox>
-	<alpha>0.725</alpha>
+	<alphaSpeed>0</alphaSpeed>
+	<speedThreshold>0</speedThreshold>
+	<blur_on>0</blur_on>
+	<blur>0</blur>
+	<threshold_on>0</threshold_on>
+	<threshold>0</threshold>
+	<angleAlpha>0.05</angleAlpha>
+	<posAlpha>0.0785714</posAlpha>
 </elementsList>

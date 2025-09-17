@@ -11,5 +11,5 @@ addons:
   # - ofxYaml
   # - ofxUVC
 
-templates: [macos, zed, make]
+templates: [chalet, macos, zed, make]
 # defines: [TARGET_RGFW_WINDOW]

@@ -28,39 +28,65 @@ class ofApp : public ofBaseApp{
 
 	ofVideoGrabber webcam;
 	ofImage img;
-	
+
 	ofxMicroUI u { "u.txt" };
 	ofxMicroUISoftware soft { &u, 1 };
 	ofxMicroUI * ui { &u.uis["ui"] };
 	ofxMicroUI * uiUVC { &u.uis["uvc"] };
 	ofxMicroUI * uiCam { &u.uis["cam"] };
 	ofxMicroUI * uiCv { &u.uis["cv"] };
+	ofxMicroUI * uiH { &u.uis["hough"] };
 
 	ofFbo * fbo { soft.fboFinal };
 
 	ofxOscSender sender;
 	glm::ivec2 res { 1280, 800 };
-	
+
 	cv::Mat inputImage;
 	cv::Mat inputCam;
-	
+
 #ifdef VIDEOWRITER
 	ofVideoWriter writer;
 #endif
 
-	
+
 	struct pt {
 		glm::vec2 pos;
 		float size;
-		
+
 		void draw() {
 			ofDrawCircle(pos.x, pos.y, size);
 		}
 	};
-	
+
 	vector <pt> pts;
 	float nextJump = 0;
-	
+
+
+	struct suaviza {
+		float angleAlpha = 0.1f;
+		float posAlpha = 0.1f;
+
+		float angle = 0.0f;
+		float angleEasy = 0.0f;
+		glm::vec2 pos { 0.0f, 0.0f };
+		glm::vec2 posEasy { 0.0f, 0.0f };
+
+		void setAngle(float a) {
+			angle = a;
+			angleEasy = angle * angleAlpha + angleEasy * (1.0f - angleAlpha);
+			// FIXME: ignora angulo
+//			angleEasy = angle;
+		}
+
+		void setPos(glm::vec2 p) {
+			pos = p;
+			posEasy = pos * posAlpha + posEasy * (1.0f - posAlpha);
+			// FIXME: ignora angulo
+//			posEasy = pos;
+		}
+	} suave;
+
 	// speed
 	struct vel {
 	public:
@@ -72,12 +98,12 @@ class ofApp : public ofBaseApp{
 		void idle() {
 			speed = 0.0f;
 		}
-		
+
 		float alphaSpeed = 0.1f;
 		float speedThreshold = 20.0f;
-		
+
 		std::function<void()> trigger = nullptr;
-		
+
 		void setPos(glm::vec2 p) {
 			lastPos = pos;
 			pos = p;
@@ -95,7 +121,7 @@ class ofApp : public ofBaseApp{
 					}
 				}
 			}
-			
+
 			else if (speed < speedThreshold * 0.5f) {
 				triggered = false;
 				//				untrigger();
