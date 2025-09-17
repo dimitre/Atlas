@@ -1,0 +1,16 @@
+size(1024, 1024)
+background(0, 0)
+with(rotate(0)):
+    #background(1)
+    rect(WIDTH*.25, 70, WIDTH*.5, HEIGHT - 140, roundness=0.3)
+    fill(1)
+    r = 300
+    ellipse(WIDTH*.5 - r*.5, HEIGHT*.2, r, r)
+    r = 150
+    ellipse(WIDTH*.5 - r*.5, HEIGHT*.63, r, r)
+    
+    stroke(1,0,.3)
+    strokewidth(10)
+    line(WIDTH*.5, 70, WIDTH*.5, HEIGHT-70)
+    
+export("track.png")    
