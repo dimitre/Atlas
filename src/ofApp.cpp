@@ -19,7 +19,7 @@ void ofApp::setup() {
 #else
 	img.allocate(webcam.getWidth(), webcam.getHeight(), OF_IMAGE_GRAYSCALE);
 #endif
-	
+
 #ifdef VIDEOWRITER
 	writer.setFbo(fbo);
 	writer.setFps(fps);
@@ -76,14 +76,14 @@ void ofApp::draw() {
 		velocidade.speedThreshold = ui->pFloat["speedThreshold"];
 
 		pts.clear();
-		
+
 		inputImage = cv::Mat(webcam.getHeight(), webcam.getWidth(), CV_8UC3, webcam.getPixels().getData());
-		
+
 //		cv::Mat input = cv::Mat(webcam.getHeight(), webcam.getWidth(), CV_8UC3, webcam.getPixels().getData());
-		
+
 //		int margem = (webcam.getWidth() - webcam.getHeight()) / 2;
 //		cout << margem << endl;
-		
+
 //		cv::Rect roi(margem, 0, webcam.getHeight() , webcam.getHeight());
 //		cv::Rect roi(0, margem, webcam.getHeight() , webcam.getHeight());
 //		inputImage = inputImage(roi).clone();
@@ -95,6 +95,12 @@ void ofApp::draw() {
 		if (inputImage.empty()) {
 			cout << "inputimage empty" << endl;
 			return;
+		}
+
+		// cout << ui->pFloat["contrast"] << endl;
+		// cout <<  ui->pFloat["brightness"] << endl;
+		if (ui->pBool["brco_on"]) {
+		    inputImage.convertTo(inputImage, -1,  ui->pFloat["contrast"], ui->pFloat["brightness"]);
 		}
 
 		if (ui->pBool["blur_on"]) {
@@ -110,7 +116,7 @@ void ofApp::draw() {
 		}
 		//cv::blur(inputImage, inputImage, int(ui->pInt["blur"]));
 
-		
+
 #ifndef USESIMPLEBLOB
 		std::vector<cv::Vec3f> circles;
 		cv::HoughCircles(inputImage, circles, cv::HOUGH_GRADIENT, 1,
@@ -120,11 +126,11 @@ void ofApp::draw() {
 						 uiH->pFloat["min_radius"],               // min_radius: Minimum circle radius
 						 uiH->pFloat["max_radius"]               // max_radius: Maximum circle radius
 		);
-		
+
 		// Draw the detected circles on the original image
 //		cout << circles.size() << endl;
 		for (size_t i = 0; i < circles.size(); i++) {
-			
+
 			cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
 			int radius = cvRound(circles[i][2]);
 
@@ -133,12 +139,12 @@ void ofApp::draw() {
 			// Draw the circle outline
 			cv::circle(inputImage, center, radius, cv::Scalar(255, 255, 255), 2, cv::LINE_AA);
 		}
-		
+
 		ofSetColor(255);
 		ofDrawBitmapString(ofToString(circles.size()), 30, 830);
 #endif
-		
-		
+
+
 #ifdef USESIMPLEBLOB
 		cv::SimpleBlobDetector::Params params;
 		params.filterByArea = true;
@@ -186,7 +192,7 @@ void ofApp::draw() {
 		webcam.draw(0, webcam.getHeight());
 		ofDrawLine(0, img.getHeight(), img.getWidth(), img.getHeight());
 
-		
+
 #ifdef USESIMPLEBLOB
 
 		if (pts.size() == 2) {
@@ -321,7 +327,7 @@ void ofApp::draw() {
 		}
 
 #endif
-		
+
 		ofPushMatrix();
 		float mult = 5.0f;
 		ofTranslate(20, 20);

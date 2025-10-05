@@ -16,7 +16,7 @@ bool	dragFbo	1
 
 uiTag	basic
 addUIDown	cam
-addUIDown	uvc
+#addUIDown	uvc
 addUI	cv
 addUIDown	ui
 addUIDown	hough
