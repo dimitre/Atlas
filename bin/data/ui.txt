@@ -18,9 +18,14 @@ bool	threshold_on	0
 float	threshold	0 255 127
 #float	thresholdMax	0 255 255
 
+float	minDistanceZ	0 100 5
+float	maxDistanceZ	0 100 45
+bool	testRect	0
 
 inspector	i1
 inspector	i2
 inspector	i3
 inspector	i4
 inspector	i5
+inspector	i6
+

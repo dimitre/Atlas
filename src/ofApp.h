@@ -42,12 +42,41 @@ class ofApp : public ofBaseApp{
 	ofxOscSender sender;
 	glm::ivec2 res { 1280, 800 };
 
-	cv::Mat inputImage;
+	// cv::Mat inputImage;
 	cv::Mat inputCam;
+
 
 #ifdef VIDEOWRITER
 	ofVideoWriter writer;
 #endif
+
+
+    inline static float c2a (glm::vec2 xy) { return glm::degrees(std::atan2(xy.y, xy.x)); }
+    inline static float r2x (float a, float m) { return m * std::cos(glm::radians(a)); }
+	inline static float r2y (float a, float m) { return m * std::sin(glm::radians(a)); }
+
+    struct orientacao {
+        bool ok = false;
+        glm::vec2 lastPos { 0.0f, 0.0f };
+        glm::vec2 pos { 0.0f, 0.0f };
+        glm::vec2 walk { 0.0f, 0.0f };
+
+        float a = 0.0f;
+        float m = 0.0f;
+        void setPos(glm::vec2 p) {
+            pos = p;
+            walk = pos - lastPos;
+
+            lastPos = pos;
+            ok = true;
+        }
+
+        glm::vec2 project() {
+            return lastPos + glm::vec2(r2x(a, m), r2y(a, m));
+            // speed
+            m *= 0.9f;
+        }
+    } orienta;
 
 
 	struct pt {
