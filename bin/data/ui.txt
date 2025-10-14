@@ -22,6 +22,8 @@ float	minDistanceZ	0 100 5
 float	maxDistanceZ	0 100 45
 bool	testRect	0
 
+float	rampZ	0 2 0
+
 inspector	i1
 inspector	i2
 inspector	i3

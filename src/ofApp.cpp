@@ -60,6 +60,7 @@ void ofApp::draw() {
 		m.addFloatArg(ofGetElapsedTimef());
 		sender.sendMessage(m, false);
 		nextJump = ofGetElapsedTimef() + 1.0f;
+		ofSetWindowTitle(ofToString(ofGetFrameRate()));
 	}
 
 	if (!webcam.isInitialized()) {
@@ -217,6 +218,10 @@ void ofApp::draw() {
 
 			float distance = glm::distance(pts[1].pos, pts[0].pos);
 			float z = ofMap(distance, ui->pFloat["minDistanceZ"], ui->pFloat["maxDistanceZ"], -1.0f, 1.0f);
+			
+			if (ui->pFloat["rampZ"]) {
+				float qz = ofMap(pos.x, 0, webcam.getWidth(), -ui->pFloat["rampZ"], ui->pFloat["rampZ"]);
+			}
 
 			float aspect = webcam.getWidth() / (float)webcam.getHeight();
 
