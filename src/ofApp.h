@@ -85,8 +85,6 @@ class ofApp : public ofBaseApp{
 			a += angularVel;
 			angularVel *= 0.9f;
 			glm::vec2 newPos = lastPos + glm::vec2(r2x(a, m), r2y(a, m));
-			return
-			// speed
 			m *= 0.9f;
 			
 			return xyza;

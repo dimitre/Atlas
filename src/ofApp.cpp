@@ -2,7 +2,7 @@
 #define USESIMPLEBLOB
 
 void ofApp::setup() {
-	cout << "CWD " << fs::current_path() << endl;
+	cout << "CWD " << std::filesystem::current_path() << endl;
 	cout << "--------" << endl;
 	
 	ofSetCircleResolution(96);
