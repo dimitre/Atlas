@@ -63,6 +63,9 @@ class ofApp : public ofBaseApp{
 
         float a = 0.0f;
         float m = 0.0f;
+		
+		float angularVel = 0.0f;
+		
         void setPos(glm::vec2 p) {
             pos = p;
             walk = pos - lastPos;
@@ -78,13 +81,18 @@ class ofApp : public ofBaseApp{
 
         glm::vec4 getXyza() {
             // Fixme: predição
-            return xyza;
+			
+			a += angularVel;
+			angularVel *= 0.9f;
+			glm::vec2 newPos = lastPos + glm::vec2(r2x(a, m), r2y(a, m));
+			return
+			// speed
+			m *= 0.9f;
+			
+			return xyza;
         }
 
         glm::vec2 project() {
-            return lastPos + glm::vec2(r2x(a, m), r2y(a, m));
-            // speed
-            m *= 0.9f;
         }
     } orienta;
 

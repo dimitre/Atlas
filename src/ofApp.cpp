@@ -220,9 +220,10 @@ void ofApp::draw() {
 
 			float aspect = webcam.getWidth() / (float)webcam.getHeight();
 
+			float remap { 1.0f };
 			glm::vec2 posMap {
-				ofMap(pos.x, 0, webcam.getWidth(), -0.5 * aspect, 0.5 * aspect),
-				ofMap(pos.y, 0, webcam.getHeight(), -0.5, 0.5)
+				ofMap(pos.x, 0, webcam.getWidth(), -remap * aspect, remap * aspect),
+				ofMap(pos.y, 0, webcam.getHeight(), -remap, remap)
 			};
 
 			//			float x = ofMap(pos.x, 0, webcam.getWidth(), -0.5 * aspect, 0.5 * aspect);
@@ -234,7 +235,7 @@ void ofApp::draw() {
 			//			m.addFloatArg(y);
 			//			m.addFloatArg(angle / 360.0f);
 			//			sender.sendMessage(m, false);
-			float a = ofMap(angle, -180, 180, 0, 1);
+			float a = ofMap(angle, -180, 180, -1.0f, 1.0f);
 
 			suave.angleAlpha = ui->pFloat["angleAlpha"];
 			suave.posAlpha = ui->pFloat["posAlpha"];
