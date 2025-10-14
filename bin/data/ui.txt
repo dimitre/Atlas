@@ -23,11 +23,12 @@ float	maxDistanceZ	0 100 45
 bool	testRect	0
 
 float	rampZ	0 2 0
+bool	clampZ	0
 
-inspector	i1
-inspector	i2
-inspector	i3
-inspector	i4
-inspector	i5
-inspector	i6
+inspector	iPos
+inspector	iPos2
+inspector	ia
+#inspector	ispeed
+inspector	idist
+inspector	iz
 

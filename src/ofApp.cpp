@@ -206,7 +206,6 @@ void ofApp::draw() {
 				p.draw();
 			}
 			ofDrawLine(pts[0].pos.x, pts[0].pos.y, pts[1].pos.x, pts[1].pos.y);
-
 			glm::vec2 dist { pts[1].pos - pts[0].pos };
 
 			float angle { glm::degrees(std::atan2(dist.y, dist.x)) };
@@ -220,17 +219,29 @@ void ofApp::draw() {
 			float z = ofMap(distance, ui->pFloat["minDistanceZ"], ui->pFloat["maxDistanceZ"], -1.0f, 1.0f);
 			
 			if (ui->pFloat["rampZ"]) {
-				float qz = ofMap(pos.x, 0, webcam.getWidth(), -ui->pFloat["rampZ"], ui->pFloat["rampZ"]);
+				z += ofMap(pos.x, 0, webcam.getWidth(), -ui->pFloat["rampZ"], ui->pFloat["rampZ"]);
+			}
+			if (ui->pFloat["clampZ"]) {
+				z = ofClamp(z, -1.0f, 1.0f);
 			}
 
-			float aspect = webcam.getWidth() / (float)webcam.getHeight();
-
 			float remap { 1.0f };
+
+//			float aspect = webcam.getWidth() / (float)webcam.getHeight();
+//			glm::vec2 posMap {
+//				ofMap(pos.x, 0, webcam.getWidth(), -remap * aspect, remap * aspect),
+//				ofMap(pos.y, 0, webcam.getHeight(), -remap, remap)
+//			};
+
+			float aspect = webcam.getHeight() / (float)webcam.getWidth();
 			glm::vec2 posMap {
-				ofMap(pos.x, 0, webcam.getWidth(), -remap * aspect, remap * aspect),
-				ofMap(pos.y, 0, webcam.getHeight(), -remap, remap)
+				ofMap(pos.x, 0, webcam.getWidth(), -remap, remap),
+				ofMap(pos.y, 0, webcam.getHeight(), -remap * aspect, remap * aspect)
 			};
 
+			
+			
+			
 			//			float x = ofMap(pos.x, 0, webcam.getWidth(), -0.5 * aspect, 0.5 * aspect);
 			//			float y = ofMap(pos.y, 0, webcam.getHeight(), -0.5, 0.5);
 
@@ -277,12 +288,13 @@ void ofApp::draw() {
 			// 	bundle.add(m);
 			// }
 
-			((ofxMicroUI::inspector *)ui->getElement("i1"))->set("pos: " + ofToString(pos.x) + " x " + ofToString(pos.y));
-			((ofxMicroUI::inspector *)ui->getElement("i2"))->set("a: " + ofToString(a));
-			((ofxMicroUI::inspector *)ui->getElement("i3"))->set("angle: " + ofToString(angle));
-			((ofxMicroUI::inspector *)ui->getElement("i4"))->set("speed: " + ofToString(velocidade.speed));
-			((ofxMicroUI::inspector *)ui->getElement("i5"))->set("distance: " + ofToString(distance));
-			((ofxMicroUI::inspector *)ui->getElement("i6"))->set("z: " + ofToString(z));
+			((ofxMicroUI::inspector *)ui->getElement("iPos"))->set("pos: " + ofToString(pos.x) + " x " + ofToString(pos.y));
+			((ofxMicroUI::inspector *)ui->getElement("iPos2"))->set("xy: " + ofToString(xyza.x) + "  : " + ofToString(xyza.y));
+			//			((ofxMicroUI::inspector *)ui->getElement("i3"))->set("angle: " + ofToString(angle));
+			((ofxMicroUI::inspector *)ui->getElement("ia"))->set("a: " + ofToString(a));
+			((ofxMicroUI::inspector *)ui->getElement("ispeed"))->set("speed: " + ofToString(velocidade.speed));
+			((ofxMicroUI::inspector *)ui->getElement("idist"))->set("distance: " + ofToString(distance));
+			((ofxMicroUI::inspector *)ui->getElement("iz"))->set("z: " + ofToString(z));
 		} else {
 			//			velocidade.idle();
 			//
