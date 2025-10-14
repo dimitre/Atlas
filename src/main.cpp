@@ -6,7 +6,7 @@ int main() {
 	
 	
 	ofWindowSettings settings;
-	settings.setSize(1380, 965);
+	settings.setSize(1480, 965);
 //	settings.setSize(1000, 620);
 //	settings.setSize(1000, 120);
 	settings.windowMode = OF_WINDOW;
