@@ -2,6 +2,9 @@
 #define USESIMPLEBLOB
 
 void ofApp::setup() {
+	cout << "CWD " << fs::current_path() << endl;
+	cout << "--------" << endl;
+	
 	ofSetCircleResolution(96);
 	ofAddListener(uiUVC->uiEvent, this, &ofApp::uiEvents);
 	ofAddListener(uiCam->uiEvent, this, &ofApp::uiEventsCam);
@@ -238,8 +241,16 @@ void ofApp::draw() {
 			suave.setPos(posMap);
 			suave.setAngle(a);
 
-			orienta.setPos(pos);
+			xyza = glm::vec4 {
+				suave.posEasy.x,
+				suave.posEasy.y,
+				z,
+				suave.angleEasy
+			};
 
+			orienta.setPos(pos);
+			// set data for prediction position angle, etc.
+			orienta.setXyza(xyza);
 
 			if (ui->pBool["testRect"]) {
 				ofPushMatrix();
@@ -253,50 +264,12 @@ void ofApp::draw() {
 				ofPopMatrix();
 			}
 
-
-			ofxOscBundle bundle;
-			{
-				ofxOscMessage m;
-				m.setAddress("/x");
-				m.addFloatArg(suave.posEasy.x);
-				bundle.add(m);
-			}
-
-			{
-				ofxOscMessage m;
-				m.setAddress("/y");
-				m.addFloatArg(suave.posEasy.y);
-				bundle.add(m);
-			}
-
-           	{
-          		ofxOscMessage m;
-          		m.setAddress("/z");
-          		m.addFloatArg(z);
-          		bundle.add(m);
-           	}
-
-			{
-				ofxOscMessage m;
-				m.setAddress("/a");
-				m.addFloatArg(suave.angleEasy);
-				bundle.add(m);
-			}
-
-			{
-				ofxOscMessage m;
-				m.setAddress("/speed");
-				m.addFloatArg(velocidade.speed);
-				bundle.add(m);
-			}
-
-			{
-				ofxOscMessage m;
-				m.setAddress("/distance");
-				m.addFloatArg(distance);
-				bundle.add(m);
-			}
-			sender.send(bundle);
+			// {
+			// 	ofxOscMessage m;
+			// 	m.setAddress("/distance");
+			// 	m.addFloatArg(distance);
+			// 	bundle.add(m);
+			// }
 
 			((ofxMicroUI::inspector *)ui->getElement("i1"))->set("pos: " + ofToString(pos.x) + " x " + ofToString(pos.y));
 			((ofxMicroUI::inspector *)ui->getElement("i2"))->set("a: " + ofToString(a));
@@ -306,7 +279,45 @@ void ofApp::draw() {
 			((ofxMicroUI::inspector *)ui->getElement("i6"))->set("z: " + ofToString(z));
 		} else {
 			//			velocidade.idle();
+			//
+			//
+			xyza = orienta.getXyza();
 		}
+
+		ofxOscBundle bundle;
+		{
+			ofxOscMessage m;
+			m.setAddress("/x");
+			m.addFloatArg(xyza.x);
+			bundle.add(m);
+		}
+		{
+			ofxOscMessage m;
+			m.setAddress("/y");
+			m.addFloatArg(xyza.y);
+			bundle.add(m);
+		}
+		{
+			ofxOscMessage m;
+			m.setAddress("/z");
+			m.addFloatArg(xyza.z);
+			bundle.add(m);
+		}
+		{
+			ofxOscMessage m;
+			m.setAddress("/a");
+			m.addFloatArg(xyza.w);
+			bundle.add(m);
+		}
+		{
+			ofxOscMessage m;
+			m.setAddress("/speed");
+			m.addFloatArg(velocidade.speed);
+			bundle.add(m);
+		}
+		
+		sender.send(bundle);
+
 #endif
 
 		ofPushMatrix();

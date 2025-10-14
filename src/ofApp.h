@@ -71,6 +71,16 @@ class ofApp : public ofBaseApp{
             ok = true;
         }
 
+        glm::vec4 xyza;
+        void setXyza(glm::vec4 p) {
+            xyza = p;
+        }
+
+        glm::vec4 getXyza() {
+            // Fixme: predição
+            return xyza;
+        }
+
         glm::vec2 project() {
             return lastPos + glm::vec2(r2x(a, m), r2y(a, m));
             // speed
@@ -78,6 +88,7 @@ class ofApp : public ofBaseApp{
         }
     } orienta;
 
+    glm::vec4 xyza;
 
 	struct pt {
 		glm::vec2 pos;
