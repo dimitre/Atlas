@@ -155,6 +155,12 @@ void ofApp::draw() {
 		params.minArea = uiCv->pInt["minArea"]; // Minimum blob area
 		params.maxArea = uiCv->pInt["maxArea"]; // Maximum blob area
 
+		if (params.maxArea < params.minArea) {
+			cout << "ERROR, maxArea < minArea" << endl;
+			return;
+		}
+		
+		
 		params.filterByCircularity = true;
 		//		params.minCircularity = 0.8; // Minimum circularity (0.0 to 1.0)
 		params.minCircularity = uiCv->pFloat["minCircularity"];
