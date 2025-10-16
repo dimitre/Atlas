@@ -40,7 +40,7 @@ class ofApp : public ofBaseApp{
 	ofFbo * fbo { soft.fboFinal };
 
 	ofxOscSender sender;
-	glm::ivec2 res { 1280, 800 };
+	glm::ivec2 res { 1280, 720 };
 
 	// cv::Mat inputImage;
 	cv::Mat inputCam;

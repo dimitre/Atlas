@@ -1,4 +1,4 @@
-int	device	0 2 2
+int	device	0 2 0
 #int	framerate	10 120 60
 int	framerate	10 120 60
 radioNoLabel	framerate_shortcutInt	15 20 24 30 60 120 180 210 420 640
