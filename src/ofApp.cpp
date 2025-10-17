@@ -6,7 +6,7 @@ void ofApp::setup() {
 	cout << "--------" << endl;
 	
 	ofSetCircleResolution(96);
-	ofAddListener(uiUVC->uiEvent, this, &ofApp::uiEvents);
+//	ofAddListener(uiUVC->uiEvent, this, &ofApp::uiEvents);
 	ofAddListener(uiCam->uiEvent, this, &ofApp::uiEventsCam);
 	int fps = 60;
 	ofSetFrameRate(fps);
@@ -14,6 +14,10 @@ void ofApp::setup() {
 	webcam.setDeviceID(0);
 	webcam.setDesiredFrameRate(fps);
 	webcam.setup(res.x, res.y);
+	
+	fbo->allocate(res.x, res.y * 2, GL_RGBA);
+
+
 	//	webcam.setPixelFormat(OF_PIXELS_BGR);
 	//	webcam.setPixelFormat(OF_PIXELS_GRAY);
 #ifdef USESIMPLEBLOB
@@ -32,6 +36,7 @@ void ofApp::setup() {
 	//	set.host = "127.0.0.1";
 
 	string ip = ofTrim(ofBufferFromFile("_osc_ip.txt").getText());
+	if(ip.empty()) ip = "127.0.0.1";
 	set.host = ip;
 	cout << "setting OSC to ip " << ip << endl;
 
@@ -54,6 +59,12 @@ void ofApp::setup() {
 void ofApp::update() { }
 
 void ofApp::draw() {
+	
+	if (!webcam.isInitialized() || webcam.getWidth() == 0 || webcam.getHeight() == 0) {
+		return;
+	}
+	
+	
 	if (ofGetElapsedTimef() > nextJump) {
 		ofxOscMessage m;
 		m.setAddress("/tempo");
@@ -63,13 +74,7 @@ void ofApp::draw() {
 		ofSetWindowTitle(ofToString(ofGetFrameRate()));
 	}
 
-	if (!webcam.isInitialized()) {
-		return;
-	}
 
-	if (webcam.getWidth() == 0) {
-		return;
-	}
 
 	webcam.update();
 	//	cout << "test" << endl;
@@ -193,7 +198,8 @@ void ofApp::draw() {
 		ofSetColor(255);
 		ofDrawBitmapString(ofToString(ofGetFrameRate()), 20, 30);
 
-		std::memcpy(img.getPixels().getData(), inputImage.data, img.getPixels().size());
+//		std::memcpy(img.getPixels().getData(), inputImage.data, img.getPixels().size());
+		img.setFromPixels(inputImage.data, inputImage.cols, inputImage.rows, OF_IMAGE_COLOR);
 		img.update();
 		img.draw(0, 0);
 
@@ -387,34 +393,34 @@ void ofApp::keyPressed(int key) {
 	}
 }
 
-void ofApp::uiEvents(ofxMicroUI::element & e) {
-	vector<string> params {
-		"auto-exposure-mode",
-		"exposure-time-abs",
-		"gain",
-		"brightness",
-		"contrast",
-		"backlight-compensation",
-		"gamma",
-		"saturation",
-		"focus-abs",
-		"auto-focus"
-		//		"white-balance-temp",
-		//		"saturation",
-		//		"sharpness",
-		//		"hue",
-		//		"auto-white-balance-temp",
-	};
-
-	string command = "../../../uvc-util -I 0 -s power-line-frequency=2 ";
-	//-s auto-exposure-mode=1
-	for (auto & p : params) {
-		command += "-s " + p + "=" + ofToString(uiUVC->pInt[p]) + " ";
-	}
-	// cout << command << endl;
-	ofSystem(command);
-	// cout << ofSystem("pwd") << endl;
-}
+//void ofApp::uiEvents(ofxMicroUI::element & e) {
+//	vector<string> params {
+//		"auto-exposure-mode",
+//		"exposure-time-abs",
+//		"gain",
+//		"brightness",
+//		"contrast",
+//		"backlight-compensation",
+//		"gamma",
+//		"saturation",
+//		"focus-abs",
+//		"auto-focus"
+//		//		"white-balance-temp",
+//		//		"saturation",
+//		//		"sharpness",
+//		//		"hue",
+//		//		"auto-white-balance-temp",
+//	};
+//
+//	string command = "../../../uvc-util -I 0 -s power-line-frequency=2 ";
+//	//-s auto-exposure-mode=1
+//	for (auto & p : params) {
+//		command += "-s " + p + "=" + ofToString(uiUVC->pInt[p]) + " ";
+//	}
+//	// cout << command << endl;
+//	ofSystem(command);
+//	// cout << ofSystem("pwd") << endl;
+//}
 
 void ofApp::uiEventsCam(ofxMicroUI::element & e) {
 	if (e.name == "device") {

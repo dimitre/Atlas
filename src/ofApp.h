@@ -32,7 +32,7 @@ class ofApp : public ofBaseApp{
 	ofxMicroUI u { "u.txt" };
 	ofxMicroUISoftware soft { &u, 1 };
 	ofxMicroUI * ui { &u.uis["ui"] };
-	ofxMicroUI * uiUVC { &u.uis["uvc"] };
+//	ofxMicroUI * uiUVC { &u.uis["uvc"] };
 	ofxMicroUI * uiCam { &u.uis["cam"] };
 	ofxMicroUI * uiCv { &u.uis["cv"] };
 	ofxMicroUI * uiH { &u.uis["hough"] };
@@ -106,7 +106,7 @@ class ofApp : public ofBaseApp{
 	};
 
 	vector <pt> pts;
-	float nextJump = 0;
+	float nextJump = 2.0f;
 
 
 	struct suaviza {
