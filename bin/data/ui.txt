@@ -28,7 +28,7 @@ bool	clampZ	0
 inspector	iPos
 inspector	iPos2
 inspector	ia
-#inspector	ispeed
+inspector	ispeed
 inspector	idist
 inspector	iz
 
