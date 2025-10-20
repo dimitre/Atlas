@@ -59,19 +59,24 @@ class ofApp : public ofBaseApp{
         bool ok = false;
         glm::vec2 lastPos { 0.0f, 0.0f };
         glm::vec2 pos { 0.0f, 0.0f };
-        glm::vec2 walk { 0.0f, 0.0f };
+//        glm::vec2 walk { 0.0f, 0.0f };
 
-        float a = 0.0f;
-        float m = 0.0f;
+        float angle = 0.0f;
+		float lastAngle = 0.0f;
+        float mag = 0.0f;
 		
 		float angularVel = 0.0f;
 		
-        void setPos(glm::vec2 p) {
+        void set(glm::vec2 p, float a) {
             pos = p;
-            walk = pos - lastPos;
-
+//            walk = pos - lastPos;
+			mag = glm::distance(pos, lastPos);
             lastPos = pos;
             ok = true;
+			
+			angle = a;
+			angularVel = a - lastAngle;
+			lastAngle = a;
         }
 
         glm::vec4 xyza;
@@ -82,10 +87,15 @@ class ofApp : public ofBaseApp{
         glm::vec4 getXyza() {
             // Fixme: predição
 			
-			a += angularVel;
+			angle += angularVel;
+			glm::vec2 newPos = pos + glm::vec2(r2x(angle, mag), r2y(angle, mag));
+
 			angularVel *= 0.9f;
-			glm::vec2 newPos = lastPos + glm::vec2(r2x(a, m), r2y(a, m));
-			m *= 0.9f;
+			mag *= 0.9f;
+			
+			xyza.x = newPos.x;
+			xyza.y = newPos.y;
+			xyza.a = ofMap(angle, -180, 180, -1.0f, 1.0f);
 			
 			return xyza;
         }

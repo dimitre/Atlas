@@ -231,29 +231,20 @@ void ofApp::draw() {
 			float z = ofMap(distance, ui->pFloat["minDistanceZ"], ui->pFloat["maxDistanceZ"], -1.0f, 1.0f);
 			
 			if (ui->pFloat["rampZ"]) {
-				z += ofMap(pos.x, 0, webcam.getWidth(), -ui->pFloat["rampZ"], ui->pFloat["rampZ"]);
+				float distMeio = std::abs(webcam.getWidth() * 0.5 - pos.x);
+				z += ofMap(distMeio, 0, webcam.getWidth() * 0.5, 0, ui->pFloat["rampZ"]);
 			}
 			if (ui->pFloat["clampZ"]) {
 				z = ofClamp(z, -1.0f, 1.0f);
 			}
 
 			float remap { 1.0f };
-
-//			float aspect = webcam.getWidth() / (float)webcam.getHeight();
-//			glm::vec2 posMap {
-//				ofMap(pos.x, 0, webcam.getWidth(), -remap * aspect, remap * aspect),
-//				ofMap(pos.y, 0, webcam.getHeight(), -remap, remap)
-//			};
-
 			float aspect = webcam.getHeight() / (float)webcam.getWidth();
 			glm::vec2 posMap {
 				ofMap(pos.x, 0, webcam.getWidth(), -remap, remap),
 				ofMap(pos.y, 0, webcam.getHeight(), -remap * aspect, remap * aspect)
 			};
 
-			
-			
-			
 			//			float x = ofMap(pos.x, 0, webcam.getWidth(), -0.5 * aspect, 0.5 * aspect);
 			//			float y = ofMap(pos.y, 0, webcam.getHeight(), -0.5, 0.5);
 
@@ -277,21 +268,11 @@ void ofApp::draw() {
 				suave.angleEasy
 			};
 
-			orienta.setPos(pos);
+			orienta.set(posMap, angle);
 			// set data for prediction position angle, etc.
 			orienta.setXyza(xyza);
 
-			if (ui->pBool["testRect"]) {
-				ofPushMatrix();
-				float x = ofMap(suave.posEasy.x, -.5, .5, 0, fbo->getWidth());
-				float y = ofMap(suave.posEasy.y, -.5, .5, 0, fbo->getWidth());
-				ofTranslate(x, y);
-				float ang = ofMap(suave.angleEasy, 0, 1, -180, 180);
-				//			cout << ang << endl;
-				ofRotateZDeg(ang);
-				ofDrawRectangle(-100, -50, 200, 100);
-				ofPopMatrix();
-			}
+
 
 			// {
 			// 	ofxOscMessage m;
@@ -313,6 +294,9 @@ void ofApp::draw() {
 			//
 			xyza = orienta.getXyza();
 		}
+		
+		
+
 
 		ofxOscBundle bundle;
 		{
@@ -367,8 +351,26 @@ void ofApp::draw() {
 		writer.addFrame();
 #endif
 	}
-
 	soft.drawFbo();
+
+	
+	if (ui->pBool["testRect"]) {
+//		cout << "------" << endl;
+//		cout << xyza.x << endl;
+//		cout << xyza.y << endl;
+//		cout << xyza.z << endl;
+//		cout << xyza.a << endl;
+		
+		ofPushMatrix();
+		float x = ofMap(xyza.x, -1, 1, 0, ofGetWindowWidth());
+		float y = ofMap(xyza.y, -1, 1, 0, ofGetWindowHeight());
+		ofTranslate(x, y);
+		float ang = ofMap(xyza.w, -1, 1, -180.0f, 180.0f);
+		ofRotateZDeg(ang);
+		ofDrawRectangle(-100, -50, 200, 100);
+		ofPopMatrix();
+	}
+
 }
 
 void ofApp::keyPressed(int key) {

@@ -19,4 +19,4 @@ addUIDown	cam
 #addUIDown	uvc
 addUI	cv
 addUIDown	ui
-addUIDown	hough
+#addUIDown	hough

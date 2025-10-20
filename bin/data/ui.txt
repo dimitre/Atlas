@@ -11,16 +11,15 @@ bool	blur_on	0
 int	blur	1 14 2
 
 bool	brco_on	0
-float	contrast	0 2 1
-float	brightness	-100 100 0
+float	contrast	0 5 1
+float	brightness	-200 200 0
 
 bool	threshold_on	0
 float	threshold	0 255 127
 #float	thresholdMax	0 255 255
 
-float	minDistanceZ	0 100 5
-float	maxDistanceZ	0 100 45
-bool	testRect	0
+float	minDistanceZ	0 700 200
+float	maxDistanceZ	0 700 500
 
 float	rampZ	0 2 0
 bool	clampZ	0
@@ -32,3 +31,4 @@ inspector	ispeed
 inspector	idist
 inspector	iz
 
+bool	testRect	0
