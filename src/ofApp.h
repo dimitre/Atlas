@@ -12,7 +12,7 @@
 
 #include "ofxOsc.h"
 
-//#define VIDEOWRITER
+// #define VIDEOWRITER
 #ifdef VIDEOWRITER
 #include "ofVideoWriter.h"
 #endif
@@ -64,16 +64,16 @@ class ofApp : public ofBaseApp{
         float angle = 0.0f;
 		float lastAngle = 0.0f;
         float mag = 0.0f;
-		
+
 		float angularVel = 0.0f;
-		
+
         void set(glm::vec2 p, float a) {
             pos = p;
 //            walk = pos - lastPos;
 			mag = glm::distance(pos, lastPos);
             lastPos = pos;
             ok = true;
-			
+
 			angle = a;
 			angularVel = a - lastAngle;
 			lastAngle = a;
@@ -86,17 +86,17 @@ class ofApp : public ofBaseApp{
 
         glm::vec4 getXyza() {
             // Fixme: predição
-			
+
 			angle += angularVel;
 			glm::vec2 newPos = pos + glm::vec2(r2x(angle, mag), r2y(angle, mag));
 
 			angularVel *= 0.9f;
 			mag *= 0.9f;
-			
+
 			xyza.x = newPos.x;
 			xyza.y = newPos.y;
 			xyza.a = ofMap(angle, -180, 180, -1.0f, 1.0f);
-			
+
 			return xyza;
         }
 
