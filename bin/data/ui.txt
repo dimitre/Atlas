@@ -1,8 +1,8 @@
 label	EASING
-float	angleAlpha	0 1 .1
-float	posAlpha	0 1 .1
+float	angleAlpha	0 1 1
+float	posAlpha	0 1 1
 
-float	alphaSpeed	0 1 .1
+float	alphaSpeed	0 1 .2
 float	speedThreshold	0 40 20
 
 #bool	blur1_on	0

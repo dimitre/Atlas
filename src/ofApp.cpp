@@ -374,6 +374,9 @@ void ofApp::draw() {
 }
 
 void ofApp::keyPressed(int key) {
+	if (key == 'q') {
+		webcam.getDevicesInfo();
+	}
 	if (key == '0') {
 		webcam.close();
 		webcam.setDeviceID(0);
