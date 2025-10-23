@@ -220,7 +220,7 @@ void ofApp::draw() {
 			ofDrawLine(pts[0].pos.x, pts[0].pos.y, pts[1].pos.x, pts[1].pos.y);
 			glm::vec2 dist { pts[1].pos - pts[0].pos };
 
-			float angle { glm::degrees(std::atan2(dist.y, dist.x)) };
+			float angle { glm::degrees(std::atan2(dist.y, dist.x)) + ui->pFloat["offsetAngle"] };
 			//		float a1 = ofRadToDeg(atan2(pts[1].pos.y - pontos[0].pos.y, pontos[1].pos.x - pontos[0].pos.x));
 
 			glm::vec2 pos { (pts[1].pos + pts[0].pos) / 2.0f };
@@ -374,9 +374,9 @@ void ofApp::draw() {
 }
 
 void ofApp::keyPressed(int key) {
-//	if (key == 'q') {
-//		webcam.getDevicesInfo();
-//	}
+	if (key == 'q') {
+		webcam.getDevicesInfo();
+	}
 	if (key == '0') {
 		webcam.close();
 		webcam.setDeviceID(0);

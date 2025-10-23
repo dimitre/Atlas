@@ -1,3 +1,5 @@
+float	offsetAngle	-90 90 0
+
 label	EASING
 float	angleAlpha	0 1 1
 float	posAlpha	0 1 1
