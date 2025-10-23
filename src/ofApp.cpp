@@ -244,6 +244,15 @@ void ofApp::draw() {
 				ofMap(pos.x, 0, webcam.getWidth(), -remap, remap),
 				ofMap(pos.y, 0, webcam.getHeight(), -remap * aspect, remap * aspect)
 			};
+			
+			if (ui->pBool["flipX"]) {
+				posMap.y *= -1.0;
+			}
+			if (ui->pBool["flipY"]) {
+				posMap.x *= -1.0;
+			}
+			
+			
 
 			//			float x = ofMap(pos.x, 0, webcam.getWidth(), -0.5 * aspect, 0.5 * aspect);
 			//			float y = ofMap(pos.y, 0, webcam.getHeight(), -0.5, 0.5);

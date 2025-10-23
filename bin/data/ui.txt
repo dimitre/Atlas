@@ -1,4 +1,6 @@
 float	offsetAngle	-90 90 0
+bool	flipX	0
+bool	flipY	0
 
 label	EASING
 float	angleAlpha	0 1 1
