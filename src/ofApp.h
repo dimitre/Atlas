@@ -80,6 +80,7 @@ class ofApp : public ofBaseApp{
         }
 
         glm::vec4 xyza;
+		
         void setXyza(glm::vec4 p) {
             xyza = p;
         }
@@ -100,8 +101,8 @@ class ofApp : public ofBaseApp{
 			return xyza;
         }
 
-        glm::vec2 project() {
-        }
+//        glm::vec2 project() {
+//        }
     } orienta;
 
     glm::vec4 xyza;
