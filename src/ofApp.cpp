@@ -301,13 +301,13 @@ void ofApp::draw() {
 		ofxOscBundle bundle;
 		{
 			ofxOscMessage m;
-			m.setAddress("/x");
+			m.setAddress("/y");
 			m.addFloatArg(xyza.x);
 			bundle.add(m);
 		}
 		{
 			ofxOscMessage m;
-			m.setAddress("/y");
+			m.setAddress("/x");
 			m.addFloatArg(xyza.y);
 			bundle.add(m);
 		}
