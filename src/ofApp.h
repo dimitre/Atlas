@@ -213,29 +213,40 @@ public:
 	} leds;
 
 	struct peixe {
+		ofxMicroUI * ui = nullptr;
 		ofxOscSender sender;
 		float amplitude = 30.0f;
+		float val = 0.0f; // RAW Value for head axis
+		void setVal(float v) {
+			val = v;
+
+			amplitude = ofMap(
+				ofClamp(val - ui->pFloat["floor"], 0.0f, 1.0f),
+				0.0f, 1.0f - ui->pFloat["floor"],
+				ui->pFloat["minAmplitude"], ui->pFloat["maxAmplitude"]);
+		}
 
 		peixe() {
-			ofxOscSenderSettings set;
-			// FIXME: Atualizar IP final.
-			// string ip { "10.1.91.100" };
-			string ip = ofTrim(ofBufferFromFile("_osc_ip_peixe.txt").getText());
-			if (ip.empty()) {
-				ip = "10.1.91.255";
-				set.broadcast = true;
+			ofxOscSenderSettings settings;
+			settings.port = 8000;
+			settings.host = ofTrim(ofBufferFromFile("_osc_ip_peixe.txt").getText());
+			if (settings.host.empty()) {
+				settings.host = "10.1.91.255";
+				// FIXME: Atualizar IP final.
+				// string ip { "10.1.91.100" };
+				settings.broadcast = true;
 			}
-			set.host = ip;
-			set.port = 8000;
-			cout << "setting OSC Peixe to ip " << ip << endl;
-			sender.setup(set);
+			cout << "setting OSC Peixe to ip " << settings.host << endl;
+			sender.setup(settings);
 		}
 
 		void send() {
-			ofxOscMessage m;
-			m.setAddress("/fish/amplitude");
-			m.addFloatArg(amplitude);
-			sender.sendMessage(m, false);
+			if (ui->pBool["send"]) {
+				ofxOscMessage m;
+				m.setAddress("/fish/amplitude");
+				m.addFloatArg(amplitude);
+				sender.sendMessage(m, false);
+			}
 		}
 	} fish;
 };

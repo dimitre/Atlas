@@ -4,6 +4,7 @@
 void ofApp::setup() {
 
 	leds.ui = &u.uis["leds"];
+	fish.ui = &u.uis["fish"];
 
 	cout << "CWD " << std::filesystem::current_path() << endl;
 	cout << "--------" << endl;
@@ -43,7 +44,7 @@ void ofApp::setup() {
 	cout << "setting OSC to ip " << ip << endl;
 
 	set.port = 8000;
-	set.broadcast = true;
+	// set.broadcast = true;
 	sender.setup(set);
 
 	velocidade.trigger = [this]() {
@@ -298,9 +299,7 @@ void ofApp::draw() {
 			xyza = orienta.getXyza();
 		}
 
-		float minAmplitude = 15.0f;
-		float maxAmplitude = 45.0f;
-		fish.amplitude = ofMap(ofClamp(xyza.y - 0.35, 0.0f, 1.0f), 0.0f, 1.0f, 15.0f, 45.0f);
+		fish.setVal(xyza.y);
 		fish.send();
 
 		ofxOscBundle bundle;
