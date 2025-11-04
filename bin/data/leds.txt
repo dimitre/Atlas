@@ -1,0 +1,3 @@
+float	noiseIndex	0 2 .1
+float	noiseTime	0 2 .1
+bool	random	0

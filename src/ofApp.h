@@ -211,4 +211,21 @@ public:
 		}
 
 	} leds;
+
+	struct peixe {
+		ofxOscSender sender;
+		peixe() {
+			ofxOscSenderSettings set;
+			//	set.host = "127.0.0.1";
+
+			string ip = ofTrim(ofBufferFromFile("_osc_ip.txt").getText());
+			if (ip.empty()) ip = "127.0.0.1";
+			set.host = ip;
+			cout << "setting OSC to ip " << ip << endl;
+
+			set.port = 8000;
+			set.broadcast = true;
+			sender.setup(set);
+		}
+	}
 };
