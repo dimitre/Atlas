@@ -2,6 +2,7 @@
 #define USESIMPLEBLOB
 
 void ofApp::setup() {
+	cout << ofToDataPath("") << endl;
 
 	leds.ui = &u.uis["leds"];
 	fish.ui = &u.uis["fish"];
