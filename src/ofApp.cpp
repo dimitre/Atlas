@@ -298,6 +298,11 @@ void ofApp::draw() {
 			xyza = orienta.getXyza();
 		}
 
+		float minAmplitude = 15.0f;
+		float maxAmplitude = 45.0f;
+		fish.amplitude = ofMap(ofClamp(xyza.y - 0.35, 0.0f, 1.0f), 0.0f, 1.0f, 15.0f, 45.0f);
+		fish.send();
+
 		ofxOscBundle bundle;
 		{
 			ofxOscMessage m;

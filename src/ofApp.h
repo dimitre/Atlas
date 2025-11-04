@@ -214,18 +214,28 @@ public:
 
 	struct peixe {
 		ofxOscSender sender;
+		float amplitude = 30.0f;
+
 		peixe() {
 			ofxOscSenderSettings set;
-			//	set.host = "127.0.0.1";
-
-			string ip = ofTrim(ofBufferFromFile("_osc_ip.txt").getText());
-			if (ip.empty()) ip = "127.0.0.1";
+			// FIXME: Atualizar IP final.
+			// string ip { "10.1.91.100" };
+			string ip = ofTrim(ofBufferFromFile("_osc_ip_peixe.txt").getText());
+			if (ip.empty()) {
+				ip = "10.1.91.255";
+				set.broadcast = true;
+			}
 			set.host = ip;
-			cout << "setting OSC to ip " << ip << endl;
-
 			set.port = 8000;
-			set.broadcast = true;
+			cout << "setting OSC Peixe to ip " << ip << endl;
 			sender.setup(set);
 		}
-	}
+
+		void send() {
+			ofxOscMessage m;
+			m.setAddress("/fish/amplitude");
+			m.addFloatArg(amplitude);
+			sender.sendMessage(m, false);
+		}
+	} fish;
 };
