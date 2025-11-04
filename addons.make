@@ -1,4 +1,5 @@
 ofxMicroUI
+ofxTools
 ofxVideoWriter
 ofxNetwork
 ofxOsc

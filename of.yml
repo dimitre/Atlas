@@ -7,7 +7,7 @@ addons:
   - ofxVideoWriter
   - ofxNetwork
   - ofxOsc
-  - ofxOpenCv
+  # - ofxOpenCv
   # - ofxYaml
   # - ofxUVC
 

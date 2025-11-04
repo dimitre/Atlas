@@ -2,11 +2,14 @@
 #define USESIMPLEBLOB
 
 void ofApp::setup() {
+
+	leds.ui = &u.uis["leds"];
+
 	cout << "CWD " << std::filesystem::current_path() << endl;
 	cout << "--------" << endl;
-	
+
 	ofSetCircleResolution(96);
-//	ofAddListener(uiUVC->uiEvent, this, &ofApp::uiEvents);
+	//	ofAddListener(uiUVC->uiEvent, this, &ofApp::uiEvents);
 	ofAddListener(uiCam->uiEvent, this, &ofApp::uiEventsCam);
 	int fps = 60;
 	ofSetFrameRate(fps);
@@ -14,9 +17,8 @@ void ofApp::setup() {
 	webcam.setDeviceID(0);
 	webcam.setDesiredFrameRate(fps);
 	webcam.setup(res.x, res.y);
-	
-	fbo->allocate(res.x, res.y * 2, GL_RGBA);
 
+	fbo->allocate(res.x, res.y * 2, GL_RGBA);
 
 	//	webcam.setPixelFormat(OF_PIXELS_BGR);
 	//	webcam.setPixelFormat(OF_PIXELS_GRAY);
@@ -36,7 +38,7 @@ void ofApp::setup() {
 	//	set.host = "127.0.0.1";
 
 	string ip = ofTrim(ofBufferFromFile("_osc_ip.txt").getText());
-	if(ip.empty()) ip = "127.0.0.1";
+	if (ip.empty()) ip = "127.0.0.1";
 	set.host = ip;
 	cout << "setting OSC to ip " << ip << endl;
 
@@ -59,12 +61,11 @@ void ofApp::setup() {
 void ofApp::update() { }
 
 void ofApp::draw() {
-	
+
 	if (!webcam.isInitialized() || webcam.getWidth() == 0 || webcam.getHeight() == 0) {
 		return;
 	}
-	
-	
+
 	if (ofGetElapsedTimef() > nextJump) {
 		ofxOscMessage m;
 		m.setAddress("/tempo");
@@ -73,8 +74,6 @@ void ofApp::draw() {
 		nextJump = ofGetElapsedTimef() + 1.0f;
 		ofSetWindowTitle(ofToString(ofGetFrameRate()));
 	}
-
-
 
 	webcam.update();
 	//	cout << "test" << endl;
@@ -164,8 +163,7 @@ void ofApp::draw() {
 			cout << "ERROR, maxArea < minArea" << endl;
 			return;
 		}
-		
-		
+
 		params.filterByCircularity = true;
 		//		params.minCircularity = 0.8; // Minimum circularity (0.0 to 1.0)
 		params.minCircularity = uiCv->pFloat["minCircularity"];
@@ -198,7 +196,7 @@ void ofApp::draw() {
 		ofSetColor(255);
 		ofDrawBitmapString(ofToString(ofGetFrameRate()), 20, 30);
 
-//		std::memcpy(img.getPixels().getData(), inputImage.data, img.getPixels().size());
+		//		std::memcpy(img.getPixels().getData(), inputImage.data, img.getPixels().size());
 		img.setFromPixels(inputImage.data, inputImage.cols, inputImage.rows, OF_IMAGE_COLOR);
 		img.update();
 		img.draw(0, 0);
@@ -229,7 +227,7 @@ void ofApp::draw() {
 
 			float distance = glm::distance(pts[1].pos, pts[0].pos);
 			float z = ofMap(distance, ui->pFloat["minDistanceZ"], ui->pFloat["maxDistanceZ"], -1.0f, 1.0f);
-			
+
 			if (ui->pFloat["rampZ"]) {
 				float distMeio = std::abs(webcam.getWidth() * 0.5 - pos.x);
 				z += ofMap(distMeio, 0, webcam.getWidth() * 0.5, 0, ui->pFloat["rampZ"]);
@@ -244,15 +242,13 @@ void ofApp::draw() {
 				ofMap(pos.x, 0, webcam.getWidth(), -remap, remap),
 				ofMap(pos.y, 0, webcam.getHeight(), -remap * aspect, remap * aspect)
 			};
-			
+
 			if (ui->pBool["flipX"]) {
 				posMap.y *= -1.0;
 			}
 			if (ui->pBool["flipY"]) {
 				posMap.x *= -1.0;
 			}
-			
-			
 
 			//			float x = ofMap(pos.x, 0, webcam.getWidth(), -0.5 * aspect, 0.5 * aspect);
 			//			float y = ofMap(pos.y, 0, webcam.getHeight(), -0.5, 0.5);
@@ -281,8 +277,6 @@ void ofApp::draw() {
 			// set data for prediction position angle, etc.
 			orienta.setXyza(xyza);
 
-
-
 			// {
 			// 	ofxOscMessage m;
 			// 	m.setAddress("/distance");
@@ -303,9 +297,6 @@ void ofApp::draw() {
 			//
 			xyza = orienta.getXyza();
 		}
-		
-		
-
 
 		ofxOscBundle bundle;
 		{
@@ -338,7 +329,7 @@ void ofApp::draw() {
 			m.addFloatArg(velocidade.speed);
 			bundle.add(m);
 		}
-		
+
 		sender.send(bundle);
 
 #endif
@@ -355,6 +346,9 @@ void ofApp::draw() {
 		ofDrawRectangle(0, 0, velocidade.speed * mult, 20);
 		ofPopMatrix();
 
+		leds.draw();
+		leds.send();
+
 		fbo->end();
 #ifdef VIDEOWRITER
 		writer.addFrame();
@@ -362,14 +356,13 @@ void ofApp::draw() {
 	}
 	soft.drawFbo();
 
-	
 	if (ui->pBool["testRect"]) {
-//		cout << "------" << endl;
-//		cout << xyza.x << endl;
-//		cout << xyza.y << endl;
-//		cout << xyza.z << endl;
-//		cout << xyza.a << endl;
-		
+		//		cout << "------" << endl;
+		//		cout << xyza.x << endl;
+		//		cout << xyza.y << endl;
+		//		cout << xyza.z << endl;
+		//		cout << xyza.a << endl;
+
 		ofPushMatrix();
 		float x = ofMap(xyza.x, -1, 1, 0, ofGetWindowWidth());
 		float y = ofMap(xyza.y, -1, 1, 0, ofGetWindowHeight());
@@ -379,7 +372,6 @@ void ofApp::draw() {
 		ofDrawRectangle(-100, -50, 200, 100);
 		ofPopMatrix();
 	}
-
 }
 
 void ofApp::keyPressed(int key) {

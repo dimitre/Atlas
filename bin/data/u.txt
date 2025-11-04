@@ -20,3 +20,4 @@ addUIDown	cam
 addUI	cv
 addUIDown	ui
 #addUIDown	hough
+addUI	leds
