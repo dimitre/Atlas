@@ -1,0 +1,5 @@
+bool	send	0
+float	minAmplitude	0 45 10
+float	maxAmplitude	0 45 30
+label	a partir de quando o deslocamento da cabeça afeta a amplitude do peixe
+float	floor	0 .8 0.3

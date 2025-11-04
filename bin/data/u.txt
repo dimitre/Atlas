@@ -21,3 +21,4 @@ addUI	cv
 addUIDown	ui
 #addUIDown	hough
 addUI	leds
+addUIDown	fish
