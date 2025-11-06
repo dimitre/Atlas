@@ -126,7 +126,7 @@ void ofApp::draw() {
 		}
 		//cv::blur(inputImage, inputImage, int(ui->pInt["blur"]));
 
-#ifndef USESIMPLEBLOB
+#ifndef USEHOUGH
 		std::vector<cv::Vec3f> circles;
 		cv::HoughCircles(inputImage, circles, cv::HOUGH_GRADIENT, 1,
 			uiH->pFloat["min_dist"], // min_dist: Minimum distance between the centers of detected circles
