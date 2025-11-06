@@ -384,9 +384,9 @@ void ofApp::keyPressed(int key) {
 	if (key == 't') {
 		fish.toggle();
 	}
-	if (key == 'q') {
-		webcam.getDevicesInfo();
-	}
+	// if (key == 'q') {
+	// 	webcam.getDevicesInfo();
+	// }
 	if (key == '0') {
 		webcam.close();
 		webcam.setDeviceID(0);
