@@ -352,6 +352,7 @@ void ofApp::draw() {
 		ofPopMatrix();
 
 		leds.draw();
+
 		leds.send();
 
 		fbo->end();
@@ -380,6 +381,9 @@ void ofApp::draw() {
 }
 
 void ofApp::keyPressed(int key) {
+	if (key == 't') {
+		fish.toggle();
+	}
 	if (key == 'q') {
 		webcam.getDevicesInfo();
 	}

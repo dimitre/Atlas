@@ -231,6 +231,19 @@ public:
 				ui->pFloat["minAmplitude"], ui->pFloat["maxAmplitude"]);
 		}
 
+		bool started = false;
+
+		void toggle() {
+			ofxOscMessage m;
+			started = !started;
+			if (started) {
+				m.setAddress("/fish/start");
+			} else {
+				m.setAddress("/fish/stop");
+			}
+			sender.sendMessage(m, false);
+		}
+
 		peixe() {
 			ofxOscSenderSettings settings;
 			settings.port = 8000;
@@ -257,6 +270,7 @@ public:
 
 		void send() {
 			if (ui->pBool["send"]) {
+				// amplitude 105.
 				if (sender.isReady()) {
 					ofxOscMessage m;
 					m.setAddress("/fish/amplitude");
@@ -266,13 +280,18 @@ public:
 				if (s2.isReady()) {
 					ofxOscMessage m;
 					m.setAddress("/fish/amplitude");
-					m.addFloatArg(a2);
+					// FIXME: a2
+					// m.addFloatArg(a2);
+					m.addFloatArg(amplitude);
+
 					s2.sendMessage(m, false);
 				}
 				if (s3.isReady()) {
 					ofxOscMessage m;
 					m.setAddress("/fish/amplitude");
-					m.addFloatArg(a3);
+					// FIXME: a3
+					// m.addFloatArg(a3);
+					m.addFloatArg(amplitude);
 					s3.sendMessage(m, false);
 				}
 			}
