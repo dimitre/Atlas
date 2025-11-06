@@ -222,6 +222,7 @@ public:
 		float a2 = 30.0f;
 		float a3 = 30.0f;
 		float val = 0.0f; // RAW Value for head axis
+		glm::vec4 xyza;
 		void setVal(float v) {
 			val = v;
 
@@ -274,7 +275,11 @@ public:
 				if (sender.isReady()) {
 					ofxOscMessage m;
 					m.setAddress("/fish/amplitude");
-					m.addFloatArg(amplitude);
+					m.addFloatArg(100.0f);
+					m.setAddress("/fish/min_speed");
+					m.addFloatArg(100.0f);
+					m.setAddress("/fish/max_speed");
+					m.addFloatArg(ofMap(std::abs(xyza.x), 0.3, 0.5, 100.0f, 200.0f));
 					sender.sendMessage(m, false);
 				}
 				if (s2.isReady()) {

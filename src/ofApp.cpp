@@ -300,6 +300,7 @@ void ofApp::draw() {
 			xyza = orienta.getXyza();
 		}
 
+		fish.xyza = xyza;
 		fish.setVal(xyza.y);
 		fish.send();
 
