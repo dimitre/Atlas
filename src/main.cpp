@@ -4,7 +4,7 @@
 
 int main() {
 	ofWindowSettings settings;
-	settings.setSize(1480, 965);
+	settings.setSize(1660, 920);
 	settings.windowMode = OF_WINDOW;
 	auto win { ofCreateWindow(settings) };
 	auto app { make_shared<ofApp>() };
