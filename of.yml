@@ -7,9 +7,9 @@ addons:
   # - ofxVideoWriter
   - ofxNetwork
   - ofxOsc
-  # - ofxOpenCv
+  - ofxOpenCv
   # - ofxYaml
   # - ofxUVC
 
-templates: [chalet, macos, zed, make]
+templates: [chalet, zed]
 # defines: [TARGET_RGFW_WINDOW]
