@@ -30,6 +30,7 @@ struct artuniverse {
 			// ofLogError("artuniverse") << "Failed to setup UDP connection to " << ip;
 		}
 
+		cout << "Artnet connecting to " << ip << endl;
 		initPacket(u);
 	}
 

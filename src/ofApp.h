@@ -188,6 +188,8 @@ public:
 	struct ledsArtnet {
 		ofxMicroUI * ui = nullptr;
 		artuniverse art { 0, "10.1.91.71" };
+		artuniverse art2 { 0, "127.0.0.1" };
+
 		// artuniverse art { 0, "127.0.0.1" };
 
 		void draw() {
@@ -202,13 +204,16 @@ public:
 				for (int b = 0; b < 4; b++) {
 					int ch = a * 4 + b;
 					art.setChannel(ch, 255 * c);
+					art2.setChannel(ch, 255 * c);
 				}
 			}
 		}
 
 		void send() {
+
 			if (ui->pBool["send"]) {
 				art.send();
+				art2.send();
 			}
 		}
 
@@ -281,6 +286,8 @@ public:
 					m.setAddress("/fish/max_speed");
 					m.addFloatArg(ofMap(std::abs(xyza.x), 0.3, 0.5, 100.0f, 200.0f));
 					sender.sendMessage(m, false);
+				} else {
+					cout << "sender is not ready" << endl;
 				}
 				if (s2.isReady()) {
 					ofxOscMessage m;
