@@ -196,7 +196,8 @@ public:
 		// artuniverse art { 0, "127.0.0.1" };
 
 		void draw() {
-			for (int a = 0; a < 15; a++) {
+			for (int a = 0; a < 30; a++) {
+				// for (int a = 0; a < 15; a++) {
 				float c { ofNoise(a * ui->pFloat["noiseIndex"], ofGetElapsedTimef() * ui->pFloat["noiseTime"]) };
 				if (ui->pBool["random"]) {
 					c = ofRandom(0, 10) > 5.0f ? 1.0f : 0.0f;
