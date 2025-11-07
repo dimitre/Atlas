@@ -187,7 +187,7 @@ public:
 
 	struct ledsArtnet {
 		ofxMicroUI * ui = nullptr;
-		artuniverse art { 0, "10.1.91.71" };
+		artuniverse art { 1, "10.1.91.71" };
 		artuniverse art2 { 0, "127.0.0.1" };
 
 		// artuniverse art { 0, "127.0.0.1" };
