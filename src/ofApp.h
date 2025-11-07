@@ -39,6 +39,9 @@ public:
 	ofxMicroUI * uiCv { &u.uis["cv"] };
 	ofxMicroUI * uiH { &u.uis["hough"] };
 
+	ofxMicroUI * uiLeds { &u.uis["leds"] };
+	ofxMicroUI * uiFish { &u.uis["fish"] };
+
 	ofFbo * fbo { soft.fboFinal };
 
 	ofxOscSender sender;
@@ -188,7 +191,7 @@ public:
 	struct ledsArtnet {
 		ofxMicroUI * ui = nullptr;
 		artuniverse art { 1, "10.1.91.71" };
-		artuniverse art2 { 0, "127.0.0.1" };
+		// artuniverse art2 { 1, "127.0.0.1" };
 
 		// artuniverse art { 0, "127.0.0.1" };
 
@@ -204,7 +207,7 @@ public:
 				for (int b = 0; b < 4; b++) {
 					int ch = a * 4 + b;
 					art.setChannel(ch, 255 * c);
-					art2.setChannel(ch, 255 * c);
+					// art2.setChannel(ch, 255 * c);
 				}
 			}
 		}
@@ -213,7 +216,7 @@ public:
 
 			if (ui->pBool["send"]) {
 				art.send();
-				art2.send();
+				// art2.send();
 			}
 		}
 

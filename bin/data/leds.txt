@@ -2,3 +2,5 @@ bool	send	0
 float	noiseIndex	0 2 .1
 float	noiseTime	0 2 .1
 bool	random	0
+
+float	speedThresholdRandom	0 40 10

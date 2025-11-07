@@ -285,6 +285,13 @@ void ofApp::draw() {
 			// 	m.addFloatArg(distance);
 			// 	bundle.add(m);
 			// }
+			//
+
+			if (velocidade.speed > uiLeds->pFloat["speedThresholdRandom"]) {
+				uiLeds->set("random", true);
+			} else {
+				uiLeds->set("random", false);
+			}
 
 			((ofxMicroUI::inspector *)ui->getElement("iPos"))->set("pos: " + ofToString(pos.x) + " x " + ofToString(pos.y));
 			((ofxMicroUI::inspector *)ui->getElement("iPos2"))->set("xy: " + ofToString(xyza.x) + "  : " + ofToString(xyza.y));
