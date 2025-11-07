@@ -22,3 +22,4 @@ addUIDown	ui
 #addUIDown	hough
 addUI	leds
 addUIDown	fish
+addUIDown	rect

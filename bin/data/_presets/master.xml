@@ -3,8 +3,8 @@
 	<fps>60</fps>
 	<presetsFolder>1</presetsFolder>
 	<presets>15</presets>
-	<fboX>765</fboX>
-	<fboY>75</fboY>
+	<fboX>864</fboX>
+	<fboY>77</fboY>
 	<fboScale>0.535714</fboScale>
 	<dragFbo>1</dragFbo>
 </elementsList>

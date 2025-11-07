@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ofGraphics.h"
 #include "ofMain.h"
 
 #include <glm/gtc/matrix_transform.hpp> // glm::toMat4
@@ -37,10 +38,9 @@ public:
 	//	ofxMicroUI * uiUVC { &u.uis["uvc"] };
 	ofxMicroUI * uiCam { &u.uis["cam"] };
 	ofxMicroUI * uiCv { &u.uis["cv"] };
-	ofxMicroUI * uiH { &u.uis["hough"] };
-
 	ofxMicroUI * uiLeds { &u.uis["leds"] };
 	ofxMicroUI * uiFish { &u.uis["fish"] };
+	// ofxMicroUI * uiH { &u.uis["hough"] };
 
 	ofFbo * fbo { soft.fboFinal };
 
@@ -313,4 +313,27 @@ public:
 			}
 		}
 	} fish;
+
+	struct rect {
+		ofxMicroUI * ui = nullptr;
+		glm::ivec2 dimensions { 1280, 720 };
+		ofRectangle rect;
+		glm::ivec2 offset { 0, 0 };
+
+		void setDimensions(glm::ivec2 d) {
+			dimensions = d;
+			rect.width = dimensions.y * ui->pFloat["width"];
+			rect.height = dimensions.y * ui->pFloat["height"];
+			rect.x = dimensions.x * 0.5f - rect.width * 0.5f + ui->pFloat["offx"] * dimensions.y;
+			rect.y = dimensions.y * 0.5f - rect.height * 0.5f + ui->pFloat["offy"] * dimensions.y;
+		}
+
+		void draw() {
+			ofPushStyle();
+			ofNoFill();
+			ofSetColor(0, 255, 0);
+			ofDrawRectangle(rect);
+			ofPopStyle();
+		}
+	} retangulo;
 };

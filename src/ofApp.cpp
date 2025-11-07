@@ -1,11 +1,11 @@
 #include "ofApp.h"
-#define USESIMPLEBLOB
 
 void ofApp::setup() {
 	cout << ofToDataPath("") << endl;
 
 	leds.ui = &u.uis["leds"];
 	fish.ui = &u.uis["fish"];
+	retangulo.ui = &u.uis["rect"];
 
 	cout << "CWD " << std::filesystem::current_path() << endl;
 	cout << "--------" << endl;
@@ -24,11 +24,7 @@ void ofApp::setup() {
 
 	//	webcam.setPixelFormat(OF_PIXELS_BGR);
 	//	webcam.setPixelFormat(OF_PIXELS_GRAY);
-#ifdef USESIMPLEBLOB
 	img.allocate(webcam.getWidth(), webcam.getHeight(), OF_IMAGE_COLOR);
-#else
-	img.allocate(webcam.getWidth(), webcam.getHeight(), OF_IMAGE_GRAYSCALE);
-#endif
 
 #ifdef VIDEOWRITER
 	writer.setFbo(fbo);
@@ -64,7 +60,6 @@ void ofApp::setup() {
 void ofApp::update() { }
 
 void ofApp::draw() {
-
 	if (!webcam.isInitialized() || webcam.getWidth() == 0 || webcam.getHeight() == 0) {
 		return;
 	}
@@ -90,26 +85,11 @@ void ofApp::draw() {
 		// trocar pra inicialização local.
 		cv::Mat inputImage(webcam.getHeight(), webcam.getWidth(), CV_8UC3, webcam.getPixels().getData());
 
-		//		cv::Mat input = cv::Mat(webcam.getHeight(), webcam.getWidth(), CV_8UC3, webcam.getPixels().getData());
-
-		//		int margem = (webcam.getWidth() - webcam.getHeight()) / 2;
-		//		cout << margem << endl;
-
-		//		cv::Rect roi(margem, 0, webcam.getHeight() , webcam.getHeight());
-		//		cv::Rect roi(0, margem, webcam.getHeight() , webcam.getHeight());
-		//		inputImage = inputImage(roi).clone();
-		//		inputImage = input(roi).clone();
-
-#ifndef USESIMPLEBLOB
-		cv::cvtColor(inputImage, inputImage, cv::COLOR_BGR2GRAY);
-#endif
 		if (inputImage.empty()) {
 			cout << "inputimage empty" << endl;
 			return;
 		}
 
-		// cout << ui->pFloat["contrast"] << endl;
-		// cout <<  ui->pFloat["brightness"] << endl;
 		if (ui->pBool["brco_on"]) {
 			inputImage.convertTo(inputImage, -1, ui->pFloat["contrast"], ui->pFloat["brightness"]);
 		}
@@ -117,48 +97,17 @@ void ofApp::draw() {
 		if (ui->pBool["blur_on"]) {
 			int b = 1 + ui->pInt["blur"] * 2;
 			cv::GaussianBlur(inputImage, inputImage, cv::Size(b, b), 0); // Apply Gaussian blur with a 9x9 kernel
+			//cv::blur(inputImage, inputImage, int(ui->pInt["blur"]));
 		}
 
 		if (ui->pBool["threshold_on"]) {
 			double threshold_value = ui->pFloat["threshold"];
 			double max_value = 255;
-			//			double max_value = ui->pFloat["thresholdMax"];
 			cv::threshold(inputImage, inputImage, threshold_value, max_value, cv::THRESH_BINARY);
 		}
-		//cv::blur(inputImage, inputImage, int(ui->pInt["blur"]));
 
-#ifdef USEHOUGH
-		std::vector<cv::Vec3f> circles;
-		cv::HoughCircles(inputImage, circles, cv::HOUGH_GRADIENT, 1,
-			uiH->pFloat["min_dist"], // min_dist: Minimum distance between the centers of detected circles
-			uiH->pFloat["threshold"], // param1: Higher threshold for the Canny edge detector
-			uiH->pFloat["accum_threshold"], // param2: Accumulator threshold for the circle centers
-			uiH->pFloat["min_radius"], // min_radius: Minimum circle radius
-			uiH->pFloat["max_radius"] // max_radius: Maximum circle radius
-		);
-
-		// Draw the detected circles on the original image
-		//		cout << circles.size() << endl;
-		for (size_t i = 0; i < circles.size(); i++) {
-
-			cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
-			int radius = cvRound(circles[i][2]);
-
-			// Draw the circle center
-			cv::circle(inputImage, center, 3, cv::Scalar(255, 255, 255), -1, cv::LINE_AA);
-			// Draw the circle outline
-			cv::circle(inputImage, center, radius, cv::Scalar(255, 255, 255), 2, cv::LINE_AA);
-		}
-
-		ofSetColor(255);
-		ofDrawBitmapString(ofToString(circles.size()), 30, 830);
-#endif
-
-#ifdef USESIMPLEBLOB
 		cv::SimpleBlobDetector::Params params;
 		params.filterByArea = true;
-		//		params.minArea = 250; // Minimum blob area
-		//		params.maxArea = 35000; // Maximum blob area
 		params.minArea = uiCv->pInt["minArea"]; // Minimum blob area
 		params.maxArea = uiCv->pInt["maxArea"]; // Maximum blob area
 
@@ -192,7 +141,6 @@ void ofApp::draw() {
 		}
 
 		cv::drawKeypoints(inputImage, keypoints, inputImage, cv::Scalar(0, 255, 0), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
-#endif
 
 		fbo->begin();
 		ofClear(100, 255);
@@ -206,8 +154,8 @@ void ofApp::draw() {
 
 		webcam.draw(0, webcam.getHeight());
 		ofDrawLine(0, img.getHeight(), img.getWidth(), img.getHeight());
-
-#ifdef USESIMPLEBLOB
+		retangulo.setDimensions({ webcam.getWidth(), webcam.getHeight() });
+		retangulo.draw();
 
 		if (pts.size() == 2) {
 			std::sort(pts.begin(), pts.end(), [](const pt & a, const pt & b) {
@@ -220,14 +168,9 @@ void ofApp::draw() {
 			}
 			ofDrawLine(pts[0].pos.x, pts[0].pos.y, pts[1].pos.x, pts[1].pos.y);
 			glm::vec2 dist { pts[1].pos - pts[0].pos };
-
 			float angle { glm::degrees(std::atan2(dist.y, dist.x)) + ui->pFloat["offsetAngle"] };
-			//		float a1 = ofRadToDeg(atan2(pts[1].pos.y - pontos[0].pos.y, pontos[1].pos.x - pontos[0].pos.x));
-
 			glm::vec2 pos { (pts[1].pos + pts[0].pos) / 2.0f };
-
 			velocidade.setPos(pos);
-
 			float distance = glm::distance(pts[1].pos, pts[0].pos);
 			float z = ofMap(distance, ui->pFloat["minDistanceZ"], ui->pFloat["maxDistanceZ"], -1.0f, 1.0f);
 
@@ -241,9 +184,14 @@ void ofApp::draw() {
 
 			float remap { 1.0f };
 			float aspect = webcam.getHeight() / (float)webcam.getWidth();
+			// glm::vec2 posMap {
+			// 	ofMap(pos.x, 0, webcam.getWidth(), -remap, remap),
+			// 	ofMap(pos.y, 0, webcam.getHeight(), -remap * aspect, remap * aspect)
+			// };
+
 			glm::vec2 posMap {
-				ofMap(pos.x, 0, webcam.getWidth(), -remap, remap),
-				ofMap(pos.y, 0, webcam.getHeight(), -remap * aspect, remap * aspect)
+				ofMap(pos.x, retangulo.rect.x, retangulo.rect.x + retangulo.rect.width, -remap, remap),
+				ofMap(pos.y, retangulo.rect.y, retangulo.rect.y + retangulo.rect.height, -remap, remap)
 			};
 
 			if (ui->pBool["flipX"]) {
@@ -253,15 +201,6 @@ void ofApp::draw() {
 				posMap.x *= -1.0;
 			}
 
-			//			float x = ofMap(pos.x, 0, webcam.getWidth(), -0.5 * aspect, 0.5 * aspect);
-			//			float y = ofMap(pos.y, 0, webcam.getHeight(), -0.5, 0.5);
-
-			//			ofxOscMessage m;
-			//			m.setAddress("/atlas");
-			//			m.addFloatArg(x);
-			//			m.addFloatArg(y);
-			//			m.addFloatArg(angle / 360.0f);
-			//			sender.sendMessage(m, false);
 			float a = ofMap(angle, -180, 180, -1.0f, 1.0f);
 
 			suave.angleAlpha = ui->pFloat["angleAlpha"];
@@ -280,14 +219,6 @@ void ofApp::draw() {
 			// set data for prediction position angle, etc.
 			orienta.setXyza(xyza);
 
-			// {
-			// 	ofxOscMessage m;
-			// 	m.setAddress("/distance");
-			// 	m.addFloatArg(distance);
-			// 	bundle.add(m);
-			// }
-			//
-
 			if (velocidade.speed > uiLeds->pFloat["speedThresholdRandom"]) {
 				uiLeds->set("random", true);
 			} else {
@@ -296,15 +227,11 @@ void ofApp::draw() {
 
 			((ofxMicroUI::inspector *)ui->getElement("iPos"))->set("pos: " + ofToString(pos.x) + " x " + ofToString(pos.y));
 			((ofxMicroUI::inspector *)ui->getElement("iPos2"))->set("xy: " + ofToString(xyza.x) + "  : " + ofToString(xyza.y));
-			//			((ofxMicroUI::inspector *)ui->getElement("i3"))->set("angle: " + ofToString(angle));
 			((ofxMicroUI::inspector *)ui->getElement("ia"))->set("a: " + ofToString(a));
 			((ofxMicroUI::inspector *)ui->getElement("ispeed"))->set("speed: " + ofToString(velocidade.speed));
 			((ofxMicroUI::inspector *)ui->getElement("idist"))->set("distance: " + ofToString(distance));
 			((ofxMicroUI::inspector *)ui->getElement("iz"))->set("z: " + ofToString(z));
 		} else {
-			//			velocidade.idle();
-			//
-			//
 			xyza = orienta.getXyza();
 		}
 
@@ -346,8 +273,6 @@ void ofApp::draw() {
 
 		sender.send(bundle);
 
-#endif
-
 		ofPushMatrix();
 		float mult = 5.0f;
 		ofTranslate(20, 20);
@@ -361,7 +286,6 @@ void ofApp::draw() {
 		ofPopMatrix();
 
 		leds.draw();
-
 		leds.send();
 
 		fbo->end();
@@ -408,43 +332,12 @@ void ofApp::keyPressed(int key) {
 		webcam.close();
 		webcam.setDeviceID(2);
 	}
-	if (key == 'r') {
-//		detect ^= 1;
-//		drawCam ^= 1;
 #ifdef VIDEOWRITER
+	if (key == 'r') {
 		writer.toggleRecording();
-#endif
 	}
+#endif
 }
-
-//void ofApp::uiEvents(ofxMicroUI::element & e) {
-//	vector<string> params {
-//		"auto-exposure-mode",
-//		"exposure-time-abs",
-//		"gain",
-//		"brightness",
-//		"contrast",
-//		"backlight-compensation",
-//		"gamma",
-//		"saturation",
-//		"focus-abs",
-//		"auto-focus"
-//		//		"white-balance-temp",
-//		//		"saturation",
-//		//		"sharpness",
-//		//		"hue",
-//		//		"auto-white-balance-temp",
-//	};
-//
-//	string command = "../../../uvc-util -I 0 -s power-line-frequency=2 ";
-//	//-s auto-exposure-mode=1
-//	for (auto & p : params) {
-//		command += "-s " + p + "=" + ofToString(uiUVC->pInt[p]) + " ";
-//	}
-//	// cout << command << endl;
-//	ofSystem(command);
-//	// cout << ofSystem("pwd") << endl;
-//}
 
 void ofApp::uiEventsCam(ofxMicroUI::element & e) {
 	if (e.name == "device") {
