@@ -196,7 +196,7 @@ public:
 		// artuniverse art { 0, "127.0.0.1" };
 
 		void draw() {
-			for (int a = 0; a < 30; a++) {
+			for (int a = 0; a < 15; a++) {
 				// for (int a = 0; a < 15; a++) {
 				float c { ofNoise(a * ui->pFloat["noiseIndex"], ofGetElapsedTimef() * ui->pFloat["noiseTime"]) };
 				if (ui->pBool["random"]) {
@@ -206,8 +206,10 @@ public:
 				ofDrawRectangle((a + 1) * 20, 50, 20, 20);
 
 				for (int b = 0; b < 4; b++) {
-					int ch = a * 4 + b;
-					art.setChannel(ch, 255 * c);
+					int ch = a * 12 + b * 3;
+					art.setChannel(ch + 0, 255 * c);
+					art.setChannel(ch + 1, 255 * c);
+					art.setChannel(ch + 2, 255 * c);
 					// art2.setChannel(ch, 255 * c);
 				}
 			}
