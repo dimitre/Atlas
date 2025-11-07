@@ -37,15 +37,16 @@ void ofApp::setup() {
 #endif
 
 	ofxOscSenderSettings set;
-	//	set.host = "127.0.0.1";
+	set.port = 8000;
 
 	string ip = ofTrim(ofBufferFromFile("_osc_ip.txt").getText());
 	if (ip.empty()) ip = "127.0.0.1";
 	set.host = ip;
 	cout << "setting OSC to ip " << ip << endl;
 
-	set.port = 8000;
-	// set.broadcast = true;
+	// Enable broadcast mode if IP ends with 255
+	size_t lastDot = ip.find_last_of('.');
+	set.broadcast = (lastDot != string::npos && ip.substr(lastDot + 1) == "255");
 	sender.setup(set);
 
 	velocidade.trigger = [this]() {

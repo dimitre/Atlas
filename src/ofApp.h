@@ -193,8 +193,6 @@ public:
 		artuniverse art { 1, "10.1.91.71" };
 		// artuniverse art2 { 1, "127.0.0.1" };
 
-		// artuniverse art { 0, "127.0.0.1" };
-
 		void draw() {
 			for (int a = 0; a < 15; a++) {
 				// for (int a = 0; a < 15; a++) {
