@@ -92,6 +92,10 @@ void ofApp::draw() {
 			return;
 		}
 
+		int margem = uiCv->pInt["margem"];
+		cv::Rect roi(margem, 0, webcam.getWidth() - margem * 2, webcam.getHeight());
+		inputImage = inputImage(roi).clone();
+
 		if (ui->pBool["brco_on"]) {
 			inputImage.convertTo(inputImage, -1, ui->pFloat["contrast"], ui->pFloat["brightness"]);
 		}
@@ -156,7 +160,9 @@ void ofApp::draw() {
 
 		webcam.draw(0, webcam.getHeight());
 		ofDrawLine(0, img.getHeight(), img.getWidth(), img.getHeight());
-		retangulo.setDimensions({ webcam.getWidth(), webcam.getHeight() });
+		// retangulo.setDimensions({ webcam.getWidth(), webcam.getHeight() });
+
+		retangulo.setDimensions({ img.getWidth(), img.getHeight() });
 		retangulo.draw();
 
 		if (pts.size() == 2) {

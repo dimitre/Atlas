@@ -341,6 +341,7 @@ public:
 
 	void checkCamera() {
 		if (reopenCamera) {
+			
 			cout << "REOPEN" << endl;
 			reopenCamera = false;
 
@@ -369,6 +370,7 @@ public:
 				writer.setFbo(fbo);
 #endif
 			}
+			soft.updateFboRect();
 		}
 	}
 };
