@@ -6,7 +6,8 @@ fpsInfo
 int	fps	0 120 30
 radioNoLabel	fps_shortcut	0 20 24 30 60 100 110 120
 #bool	verticalSync	0
-radioNoLabel	presetsFolder	1 2 3 4 5 6 7 8 9 10 dmt
+#radioNoLabel	presetsFolder	1 2 3 4 5 6 7 8 9 10 dmt
+radioNoLabel	presetsFolder	1
 presetsNoLabel	presets	0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
 int	fboX	0 800 600
 int	fboY	0 800 300
