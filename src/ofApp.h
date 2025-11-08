@@ -341,7 +341,7 @@ public:
 
 	void checkCamera() {
 		if (reopenCamera) {
-			
+
 			cout << "REOPEN" << endl;
 			reopenCamera = false;
 
@@ -373,4 +373,26 @@ public:
 			soft.updateFboRect();
 		}
 	}
+
+	struct animaPeixe {
+		ofxMicroUI * ui = nullptr;
+		float nextJump = 60;
+		void muda() {
+			if (ui != nullptr) {
+				// ui
+				float ni { ofRandom(0.05, 0.3) };
+				ui->set("noiseIndex", ni);
+				float nt { ofRandom(0.07, 0.37) };
+				ui->set("noiseTime", nt);
+			}
+		}
+		void update() {
+			// Atualiza a cada minuto
+			if (ofGetElapsedTimef() > nextJump) {
+				cout << "AnimaPeixe Muda" << endl;
+				nextJump = ofGetElapsedTimef() + 60;
+				muda();
+			}
+		}
+	} animaFish;
 };

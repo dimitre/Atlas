@@ -61,6 +61,7 @@ void ofApp::update() { }
 
 void ofApp::draw() {
 	checkCamera();
+	animaFish.update();
 
 	if (!webcam.isInitialized() || webcam.getWidth() == 0 || webcam.getHeight() == 0) {
 		return;
@@ -325,6 +326,9 @@ void ofApp::draw() {
 }
 
 void ofApp::keyPressed(int key) {
+	if (key == 'e') {
+		animaFish.muda();
+	}
 	if (key == 't') {
 		fish.toggle();
 	}
