@@ -6,6 +6,7 @@ void ofApp::setup() {
 	leds.ui = &u.uis["leds"];
 	fish.ui = &u.uis["fish"];
 	retangulo.ui = &u.uis["rect"];
+	animaFish.ui = &u.uis["leds"];
 
 	cout << "CWD " << std::filesystem::current_path() << endl;
 	cout << "--------" << endl;

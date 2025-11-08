@@ -337,6 +337,7 @@ public:
 		}
 	} retangulo;
 
+	// FIXME: Todo - check camera parameters and don't reopen if they dont change
 	bool reopenCamera = false;
 
 	void checkCamera() {
@@ -384,6 +385,8 @@ public:
 				ui->set("noiseIndex", ni);
 				float nt { ofRandom(0.07, 0.37) };
 				ui->set("noiseTime", nt);
+			} else {
+				cout << "animaPeixe UI is nullptr" << endl;
 			}
 		}
 		void update() {
