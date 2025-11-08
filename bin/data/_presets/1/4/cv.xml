@@ -1,7 +1,0 @@
-<ofxMicroUI>2</ofxMicroUI>
-<elementsList>
-	<minCircularity>0.8</minCircularity>
-	<minConvexity>0.9</minConvexity>
-	<minArea>50</minArea>
-	<maxArea>4200</maxArea>
-</elementsList>

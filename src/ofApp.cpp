@@ -60,6 +60,8 @@ void ofApp::setup() {
 void ofApp::update() { }
 
 void ofApp::draw() {
+	checkCamera();
+
 	if (!webcam.isInitialized() || webcam.getWidth() == 0 || webcam.getHeight() == 0) {
 		return;
 	}
@@ -183,7 +185,7 @@ void ofApp::draw() {
 			}
 
 			float remap { 1.0f };
-			float aspect = webcam.getHeight() / (float)webcam.getWidth();
+			// float aspect = webcam.getHeight() / (float)webcam.getWidth();
 			// glm::vec2 posMap {
 			// 	ofMap(pos.x, 0, webcam.getWidth(), -remap, remap),
 			// 	ofMap(pos.y, 0, webcam.getHeight(), -remap * aspect, remap * aspect)
@@ -340,6 +342,10 @@ void ofApp::keyPressed(int key) {
 }
 
 void ofApp::uiEventsCam(ofxMicroUI::element & e) {
+	if (e.name == "device" || e.name == "framerate" || e.name == "res") {
+		reopenCamera = true;
+	}
+
 	if (e.name == "device") {
 		webcam.close();
 		webcam.setDeviceID(*e.i);

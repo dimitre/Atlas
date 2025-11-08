@@ -336,4 +336,39 @@ public:
 			ofPopStyle();
 		}
 	} retangulo;
+
+	bool reopenCamera = false;
+
+	void checkCamera() {
+		if (reopenCamera) {
+			cout << "REOPEN" << endl;
+			reopenCamera = false;
+
+			if (webcam.isInitialized()) {
+				cout << "CLOSE" << endl;
+				webcam.close();
+			}
+
+			if (!uiCam->pString["res"].empty()) {
+				cout << "OK RES" << endl;
+
+				webcam.setDeviceID(uiCam->pInt["device"]);
+				webcam.setDesiredFrameRate(uiCam->pInt["framerate"]);
+
+				auto s = ofSplitString(uiCam->pString["res"], "x");
+				res.x = ofToInt(s[0]);
+				res.y = ofToInt(s[1]);
+				webcam.setup(res.x, res.y);
+				cout << "OK SETUP" << endl;
+
+				img.allocate(webcam.getWidth(), webcam.getHeight(), OF_IMAGE_COLOR);
+				fbo->allocate(webcam.getWidth(), webcam.getHeight() * 2);
+
+#ifdef VIDEOWRITER
+				writer.setFps(uiCam->pInt["framerate"]);
+				writer.setFbo(fbo);
+#endif
+			}
+		}
+	}
 };
