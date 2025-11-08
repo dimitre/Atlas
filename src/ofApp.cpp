@@ -92,8 +92,11 @@ void ofApp::draw() {
 			return;
 		}
 
-		int margem = uiCv->pInt["margem"];
-		cv::Rect roi(margem, 0, webcam.getWidth() - margem * 2, webcam.getHeight());
+		// int margem = uiCv->pInt["margem"];
+		// cv::Rect roi(margem, 0, webcam.getWidth() - margem * 2, webcam.getHeight());
+
+		int largura = webcam.getWidth() - (uiCv->pInt["margemEsquerda"] + uiCv->pInt["margemDireita"]);
+		cv::Rect roi(uiCv->pInt["margemEsquerda"], 0, largura, webcam.getHeight() - uiCv->pInt["margemBaixo"]);
 		inputImage = inputImage(roi).clone();
 
 		if (ui->pBool["brco_on"]) {

@@ -2,4 +2,7 @@ float	minCircularity	0 1 .8
 float	minConvexity	0 1 .9
 int	minArea	1 1000 250
 int	maxArea	1 70000 35000
-int	margem	0 300 100
+#int	margem	0 300 100
+int	margemEsquerda	0 300 130
+int	margemDireita	0 300 100
+int	margemBaixo	0 300 50
