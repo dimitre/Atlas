@@ -16,21 +16,21 @@ void ofApp::setup() {
 	int fps = 60;
 	ofSetFrameRate(fps);
 	webcam.listDevices();
-	webcam.setDeviceID(0);
-	webcam.setDesiredFrameRate(fps);
-	webcam.setup(res.x, res.y);
+	// webcam.setDeviceID(0);
+	// webcam.setDesiredFrameRate(fps);
+	// webcam.setup(res.x, res.y);
 
-	fbo->allocate(res.x, res.y * 2, GL_RGBA);
+	// fbo->allocate(res.x, res.y * 2, GL_RGBA);
 
 	//	webcam.setPixelFormat(OF_PIXELS_BGR);
 	//	webcam.setPixelFormat(OF_PIXELS_GRAY);
-	img.allocate(webcam.getWidth(), webcam.getHeight(), OF_IMAGE_COLOR);
+	// img.allocate(webcam.getWidth(), webcam.getHeight(), OF_IMAGE_COLOR);
 
-#ifdef VIDEOWRITER
-	writer.setFbo(fbo);
-	writer.setFps(fps);
-	writer.setScale(1);
-#endif
+	// #ifdef VIDEOWRITER
+	// 	writer.setFbo(fbo);
+	// 	writer.setFps(fps);
+	// 	writer.setScale(1);
+	// #endif
 
 	ofxOscSenderSettings set;
 	set.port = 8000;
@@ -344,32 +344,5 @@ void ofApp::keyPressed(int key) {
 void ofApp::uiEventsCam(ofxMicroUI::element & e) {
 	if (e.name == "device" || e.name == "framerate" || e.name == "res") {
 		reopenCamera = true;
-	}
-
-	if (e.name == "device") {
-		webcam.close();
-		webcam.setDeviceID(*e.i);
-		webcam.setup(res.x, res.y);
-	} else if (e.name == "framerate") {
-		webcam.close();
-		webcam.setDesiredFrameRate(*e.i);
-		webcam.setup(res.x, res.y);
-#ifdef VIDEOWRITER
-		writer.setFps(*e.i);
-#endif
-	} else if (e.name == "res") {
-		if (*e.s != "") {
-			auto s = ofSplitString(*e.s, "x");
-			res.x = ofToInt(s[0]);
-			res.y = ofToInt(s[1]);
-			webcam.close();
-			webcam.setup(res.x, res.y);
-			img.allocate(webcam.getWidth(), webcam.getHeight(), OF_IMAGE_COLOR);
-			fbo->allocate(webcam.getWidth(), webcam.getHeight() * 2);
-
-#ifdef VIDEOWRITER
-			writer.setFbo(fbo);
-#endif
-		}
 	}
 }
