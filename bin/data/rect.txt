@@ -1,5 +1,5 @@
 label	Tracker Rectangle
 float	width	0 1 1
 float	height	0 1 1
-float	offx	-0.1 0.1 0
-float	offy	-0.1 0.1 0
+float	offx	-0.15 0.15 0
+float	offy	-0.15 0.15 0

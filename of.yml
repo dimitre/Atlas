@@ -1,13 +1,15 @@
 ofpath: ../../..
 
+icon: icon/track.png
+
 addons:
   - ofxMicroUI
-  # - ofxTools
-  # - ofxScenes
-  # - ofxVideoWriter
   - ofxNetwork
   - ofxOsc
   - ofxOpenCv
+  # - ofxTools
+  # - ofxScenes
+  # - ofxVideoWriter
   # - ofxYaml
   # - ofxUVC
 
