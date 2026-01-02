@@ -19,7 +19,8 @@ in the meantime I was working on an openFrameworks fork to quickly deploy to mul
 ofLibs also helped pinning specific OpenCV versions for all platforms minimizing differences.
 
 ## Tracking / Still not there
-Testing STAG extensively showed it was still not ideal for our tracking system. We started to think of more simple solutions, inspired by motion capture systems (like optitrack).
+Testing STAG extensively showed it was still not ideal for our tracking system. 
+We started to think of more simple solutions, inspired by motion capture systems (like optitrack).
 
 ## 2D Simple solution
 After testing pose estimation we finally found the simplest solution possible. Tracking a circle in the camera.
@@ -28,6 +29,10 @@ Custom trackers were built made of big styrofoam spheres and reflective tape, so
 This ratio of 1:2 would give resiliency to perspective distortion as we went for a wide camera (100 degrees)
 Other improvement was using a camera with a IR pass filter and matching IR illumination, so most artifacts were filtered out.
 On the top of 2D positioning and angle, we could detect Z axis by calculating the distance of the two spheres, having a callibration system to know when CB was in "Rest" position, or down or up.
+
+## Data extrapolation
+In each frame we calculate speed in polar coordinates (angle / magnitude) 
+If we miss trackers for a frame or two (occulsion) the software extrapolated data based on previous measurements, so we could still have a smooth interaction.
 
 ## Communication with Unreal
 All positioning data was sent to Unreal using OSC at 60hz locally. tracking system was installed in the same computer of visual content (Unreal) so only localhost OSC was needed.
