@@ -1,9 +1,0 @@
-size(1280, 720)
-background(1)
-
-r= 80
-ellipse(WIDTH*.33 - r*.5, HEIGHT*.5 - r*.5, r, r)
-r= 160
-
-ellipse(WIDTH*.66 - r*.5, HEIGHT*.5 - r*.5, r, r)
-export("atlastracker.png")

@@ -1,17 +1,8 @@
 ofpath: ../../..
-
-icon: icon/track.png
-
+version: 0.3.1
 addons:
   - ofxMicroUI
   - ofxNetwork
   - ofxOsc
   - ofxOpenCv
-  # - ofxTools
-  # - ofxScenes
-  # - ofxVideoWriter
-  # - ofxYaml
-  # - ofxUVC
-
 templates: [chalet, zed]
-# defines: [TARGET_RGFW_WINDOW]

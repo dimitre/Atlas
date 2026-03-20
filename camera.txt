@@ -1,0 +1,125 @@
+brightness {
+  type-description: {
+    single value, signed 16-bit integer
+  },
+  minimum: -64
+  maximum: 64
+  step-size: 1
+  default-value: 0
+  current-value: 0
+}
+white-balance-temp {
+  type-description: {
+    single value, unsigned 16-bit integer
+  },
+  minimum: 2800
+  maximum: 6500
+  step-size: 1
+  default-value: 4600
+  current-value: 4600
+}
+backlight-compensation {
+  type-description: {
+    single value, unsigned 16-bit integer
+  },
+  minimum: 0
+  maximum: 128
+  step-size: 0
+  default-value: 0
+  current-value: 121
+}
+exposure-time-abs {
+  type-description: {
+    single value, unsigned 32-bit integer
+  },
+  minimum: 10
+  maximum: 626
+  step-size: 1
+  default-value: 156
+  current-value: 10
+}
+power-line-frequency {
+  type-description: {
+    single value, unsigned 8-bit integer
+  },
+  minimum: 0
+  maximum: 2
+  step-size: 1
+  default-value: 1
+  current-value: 2
+}
+gain {
+  type-description: {
+    single value, unsigned 16-bit integer
+  },
+  minimum: 1
+  maximum: 8
+  step-size: 1
+  default-value: 1
+  current-value: 1
+}
+saturation {
+  type-description: {
+    single value, unsigned 16-bit integer
+  },
+  minimum: 0
+  maximum: 100
+  step-size: 1
+  default-value: 56
+  current-value: 69
+}
+auto-exposure-mode {
+  type-description: {
+    single value, unsigned 8-bit bitmap
+  },
+  step-size: 9
+  default-value: 8
+  current-value: 1
+}
+sharpness {
+  type-description: {
+    single value, unsigned 16-bit integer
+  },
+  minimum: 1
+  maximum: 7
+  step-size: 1
+  default-value: 2
+  current-value: 2
+}
+contrast {
+  type-description: {
+    single value, unsigned 16-bit integer
+  },
+  minimum: 0
+  maximum: 95
+  step-size: 1
+  default-value: 3
+  current-value: 34
+}
+hue {
+  type-description: {
+    single value, signed 16-bit integer
+  },
+  minimum: -2000
+  maximum: 2000
+  step-size: 1
+  default-value: 0
+  current-value: 0
+}
+gamma {
+  type-description: {
+    single value, unsigned 16-bit integer
+  },
+  minimum: 64
+  maximum: 300
+  step-size: 1
+  default-value: 84
+  current-value: 277
+}
+auto-white-balance-temp {
+  type-description: {
+    single value, boolean
+  },
+  default-value: true
+  current-value: true
+}
